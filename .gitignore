@@ -1,3 +1,9 @@
+*.aux
+*.log
+*.pdf
+*.eps
+*.swp
+
 *.py[cod]
 
 # C extensions
