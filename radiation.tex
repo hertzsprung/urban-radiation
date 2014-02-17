@@ -1,0 +1,39 @@
+\documentclass[a4paper,titlepage]{article}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\begin{document}
+\title{Impact of urban atmospheric conditions on radiation receipt in London}
+\author{Elizabeth Erhbar, Maurice John Lally, Emily McKie, James Shaw}
+\maketitle
+
+The simplest model assumes no reflection or absorption occurs in the atmosphere; that is, transmittance $\mathcal{T} = 1$.  From, TODO: section 9.4 ambaum, the insolation $S$ is related to the total solar irradiance $S_0$ by
+\begin{align*}
+S &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
+\intertext{Neglecting orbital eccentricity this becomes}
+S &= S_0 \cos \theta
+\intertext{$\theta$ is the solar zenith angle which is approximated by}
+\cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h
+\end{align*}
+where $\varphi$ is the latitude, $h$ is the hour angle and $\delta$ is the declination of the Sun.  Given we are concerned with radiation in London, we can assume a longitude of \ang{0}, so the hour angle is approximately
+\begin{align*}
+h = \left( t(\mathrm{seconds}) \cdot \ang{360} / 86400 \right) - \ang{180}
+\end{align*}
+The declination of the Sun $\delta$ is approximated by
+\begin{align*}
+\delta &= \ang{-23.44} \cdot \cos \left[ \frac{\ang{360}}{365} \cdot (N+10) \right]
+\end{align*}
+where $N$ is the day of the year with $N=0$ being January 1.  This model results in insolation with annual and daily periods as seen in Figure~\ref{fig:toa-model}.
+
+\begin{figure}
+\centering
+\input{toa-model}
+\caption{Insolation model at \SI{51}{\degree N}}
+\label{fig:toa-model}
+\end{figure}
+
+\end{document}
