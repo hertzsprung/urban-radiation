@@ -12,7 +12,7 @@ wc:
 	$(TEXCOUNT) radiation.tex
 
 clean:
-	rm -f *.dat radiation.pdf
+	rm -f *.dat radiation.pdf $(GRAPHS)
 
 radiation.pdf: radiation.tex $(GRAPHS)
 	$(PDFLATEX) $<
@@ -20,4 +20,5 @@ radiation.pdf: radiation.tex $(GRAPHS)
 
 $(GRAPHS): radiation.plt radiation.py one_year_toa.py
 	./one_year_toa.py 51 > one_year_toa.dat
+	./model_obs_merge.py London_MET_20102012.csv 51 > model_obs.dat
 	$(GNUPLOT) -e "load '$<'"

@@ -17,6 +17,6 @@ set format x "%H:%M"
 set xrange ["2010-10-11 00:00:00":"2010-10-12 00:00:00"]
 set xlabel "Time"
 
-plot 'London_MET_20102012.csv' using 1:4 title "Observed SW", \
-     'one_year_toa.dat' using 1:2 title "Modelled SW", \
-     'London_MET_20102012.csv' using 1:5 title "Observed LW"
+plot 'model_obs.dat' using 1:3 title "Observed SFC SW", \
+     'model_obs.dat' using 1:5 title "Modelled TOA SW", \
+     'model_obs.dat' using 1:4 title "Observed SFC LW"

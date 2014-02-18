@@ -6,10 +6,10 @@ def solar_irradiance():
 	return 1366.0
 
 def day_of_year(timestamp):
-	return datetime.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").timetuple().tm_yday
+	return timestamp.timetuple().tm_yday
 
 def seconds_of_day(timestamp):
-	time_tuple = datetime.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").timetuple()
+	time_tuple = timestamp.timetuple()
 	return time_tuple.tm_hour * 60 * 60 + time_tuple.tm_min * 60 + time_tuple.tm_sec
 
 def declination(day):
@@ -25,6 +25,11 @@ def cos_zenith(latitude, day_of_year, seconds_of_day):
 
 def insolation(cos_zenith):
 	return solar_irradiance() * cos_zenith
+
+def optical_depth(irradiance_start, irradiance_end, cos_zenith):
+	if (irradiance_end == 0):
+		return float("inf")
+	return cos_zenith * math.log(irradiance_start/irradiance_end)
 
 def to_date(day_of_year, seconds_of_day):
 	return datetime.datetime(2010, 1, 1) + datetime.timedelta(day_of_year, seconds_of_day)
