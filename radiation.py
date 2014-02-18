@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import math
 import datetime
+import sys
 
 def solar_irradiance():
 	return 1366.0
@@ -27,9 +28,17 @@ def insolation(cos_zenith):
 	return solar_irradiance() * cos_zenith
 
 def optical_depth(irradiance_start, irradiance_end, cos_zenith):
+	if (irradiance_end > irradiance_start):
+		sys.stderr.write('Cannot calculate sane optical_depth for irradiance_start=' + str(irradiance_start) + ', irradiance_end=' + str(irradiance_end) + '\n')
+		return 'NA'
+
 	if (irradiance_end == 0):
-		return float("inf")
+		return 'NA'
+
 	return cos_zenith * math.log(irradiance_start/irradiance_end)
+
+def extinguish(irradiance, optical_depth, cos_zenith):
+	return irradiance * math.exp(-optical_depth/cos_zenith)
 
 def to_date(day_of_year, seconds_of_day):
 	return datetime.datetime(2010, 1, 1) + datetime.timedelta(day_of_year, seconds_of_day)

@@ -20,3 +20,14 @@ set xlabel "Time"
 plot 'model_obs.dat' using 1:3 title "Observed SFC SW", \
      'model_obs.dat' using 1:5 title "Modelled TOA SW", \
      'model_obs.dat' using 1:4 title "Observed SFC LW"
+
+set term wxt
+set output
+
+set ytic auto nomirror
+set y2tic auto nomirror
+set xrange ["2010-10-01 00:00:00":"2010-10-10 00:00:00"]
+plot 'model_obs.dat' using 1:5 title "TOA", \
+     'model_obs.dat' using 1:3 title "Obs SFC SW", \
+     'model_obs.dat' using 1:7 title "Model SFC SW"
+#plot 'model_obs.dat' using 1:6 axes x1y2 title "optical depth", \
