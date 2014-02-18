@@ -13,7 +13,7 @@
 \author{Elizabeth Erhbar, Emily McKie, Maurice John Lally, James Shaw}
 \maketitle
 
-The simplest model assumes that no reflection or absorption of solar radiation occurs in the atmosphere; that is, transmittance $\mathcal{T} = 1$.  From, TODO: section 9.4 ambaum, the insolation $S$ is related to the total solar irradiance $S_0$ by
+Our model starts by estimating the insolation at the top of the atmosphere (TOA).  From, TODO: section 9.4 ambaum, the insolation $S$ is related to the total solar irradiance $S_0$ by
 \begin{align*}
 S &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{Neglecting orbital eccentricity this becomes}
@@ -31,14 +31,12 @@ The declination of the Sun $\delta$ is approximated by
 \end{align*}
 where $N$ is the day of the year with $N=0$ being January 1.  This model results in insolation with annual and daily periods as seen in Figure~\ref{fig:toa-model}.
 
-To estimate the downwelling longwave radiation, we use a single slab atmosphere that is transparent to shortwave solar radiation and opaque to longwave radiation.  TODO section 9.3 ambaum gives the energy budgets for this system:
+To give a crude estimate of insolation at the surface we compare insolation at the surface with insolation at the top of the atmosphere to calculate an average optical depth using the Beer-Lambert law
 \begin{align*}
-\text{Top of atmosphere:} && S_0/4 &= \alpha S_0/4 + \sigma T_A^4 \eqnumbered \label{eqn:toa-budget} \\
-\text{Atmosphere:} && 2 \sigma T_A^4 &= \sigma T_E^4 \\
-\text{Surface:} && \sigma T_E^4 &= \sigma T_A^4 + \left(1 - \alpha \right) S_0/4
-\intertext{where $\alpha$ is the surface shortwave albedo.  Rearranging Equation~\ref{eqn:toa-budget} we find the surface longwave radiation}
-\sigma T_E^4 &= \left( 1 - \alpha \right) S_0/2
+&& S_\mathrm{SFC} &= S_\mathrm{TOA}\: \exp \left( -\frac{\tau}{\mu} \right) \\
+\text{or equivalently} && \tau &= \mu \: \ln \left( \frac{S_\mathrm{SFC}}{S_\mathrm{TOA}} \right)
 \end{align*}
+We find the average optical depth $\langle \tau \rangle = 0.45$.
 
 We can verify the model by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  Figure~\ref{fig:toa-model-verification} shows that the model closely matches the observations.
 

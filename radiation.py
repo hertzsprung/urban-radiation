@@ -37,6 +37,9 @@ def optical_depth(irradiance_start, irradiance_end, cos_zenith):
 
 	return cos_zenith * math.log(irradiance_start/irradiance_end)
 
+def irradiance(brightness_temp):
+	return 5.67e-8 * brightness_temp ** 4
+
 def extinguish(irradiance, optical_depth, cos_zenith):
 	return irradiance * math.exp(-optical_depth/cos_zenith)
 
