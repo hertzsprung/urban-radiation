@@ -2,7 +2,7 @@ PDFLATEX := pdflatex
 TEXCOUNT := texcount
 GNUPLOT := gnuplot
 
-GRAPHS := toa-model.tex
+GRAPHS := toa-model.tex toa-model-verification.tex
 
 .PHONY: all wc
 
