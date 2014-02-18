@@ -3,6 +3,7 @@
 *.pdf
 *.eps
 *.swp
+*.dat
 
 *.py[cod]
 
