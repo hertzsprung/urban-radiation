@@ -1,6 +1,7 @@
 PDFLATEX := pdflatex
 TEXCOUNT := texcount
 GNUPLOT := gnuplot
+R := /usr/bin/R
 
 GRAPHS := toa-model.tex toa-model-verification.tex
 
@@ -13,6 +14,9 @@ wc:
 
 clean:
 	rm -f *.dat radiation.pdf $(GRAPHS)
+
+stats:
+	$(R) --vanilla < statistics.r
 
 radiation.pdf: radiation.tex $(GRAPHS)
 	$(PDFLATEX) $<

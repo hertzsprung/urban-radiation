@@ -9,7 +9,7 @@ latitude = math.radians(float(sys.argv[2]))
 optical_depth = float(sys.argv[3])
 
 observations = open(observations_filename, 'r')
-print('#timestamp, observed_toa, observed_shortwave, observed_longwave, model_toa, calculated_optical_depth, model_shortwave')
+print('#timestamp, observed_toa, observed_shortwave, observed_longwave, model_toa, calculated_optical_depth, model_shortwave, model_longwave')
 for line in observations.readlines():
 	tokens = line.split(',')
 	if 'NA' in tokens:

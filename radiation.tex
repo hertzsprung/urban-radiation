@@ -31,14 +31,19 @@ The declination of the Sun $\delta$ is approximated by
 \end{align*}
 where $N$ is the day of the year with $N=0$ being January 1.  This model results in insolation with annual and daily periods as seen in Figure~\ref{fig:toa-model}.
 
-To give a crude estimate of insolation at the surface we compare insolation at the surface with insolation at the top of the atmosphere to calculate an average optical depth using the Beer-Lambert law
+To approximate the insolation at the surface we compare insolation at the surface with insolation at the top of the atmosphere to calculate an average optical depth using the Beer-Lambert law
 \begin{align*}
 && S_\mathrm{SFC} &= S_\mathrm{TOA}\: \exp \left( -\frac{\tau}{\mu} \right) \\
 \text{or equivalently} && \tau &= \mu \: \ln \left( \frac{S_\mathrm{SFC}}{S_\mathrm{TOA}} \right)
 \end{align*}
 We find the average optical depth $\langle \tau \rangle = 0.45$.
 
-We can verify the model by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  Figure~\ref{fig:toa-model-verification} shows that the model closely matches the observations.
+The downwelling longwave radiation at the surface can be estimated by assuming that the air emits black body radiation, hence
+\begin{align*}
+I_{LW} &= \sigma T^4
+\end{align*}
+
+We can verify the model by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  In Figure~\ref{fig:toa-model-verification} we see that the model gives a crude estimate of surface insolation because the optical depth is not constant ($\sigma=0.39$).  Longwave radiation is better approximated but overestimates the observed value.  This could be due to the model wrongly assuming that air is a blackbody, and ignoring absorption and scattering effects.
 
 \begin{figure}
 \centering
@@ -50,7 +55,7 @@ We can verify the model by comparing its output with radiation observed at KSS (
 \begin{figure}
 \centering
 \input{toa-model-verification}
-\caption{Comparison of modelled and observed shortwave radation}
+\caption{Comparison of modelled and observed radiation}
 \label{fig:toa-model-verification}
 \end{figure}
 \end{document}

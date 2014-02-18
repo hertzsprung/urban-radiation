@@ -29,7 +29,9 @@ def insolation(cos_zenith):
 
 def optical_depth(irradiance_start, irradiance_end, cos_zenith):
 	if (irradiance_end > irradiance_start):
-		sys.stderr.write('Cannot calculate sane optical_depth for irradiance_start=' + str(irradiance_start) + ', irradiance_end=' + str(irradiance_end) + '\n')
+		# tolerate difference of 10 W m^-2
+		if (irradiance_end - 10.0 > irradiance_start):
+			sys.stderr.write('Cannot calculate sane optical_depth for irradiance_start=' + str(irradiance_start) + ', irradiance_end=' + str(irradiance_end) + '\n')
 		return 'NA'
 
 	if (irradiance_end == 0):
@@ -37,8 +39,8 @@ def optical_depth(irradiance_start, irradiance_end, cos_zenith):
 
 	return cos_zenith * math.log(irradiance_start/irradiance_end)
 
-def irradiance(brightness_temp):
-	return 5.67e-8 * brightness_temp ** 4
+def irradiance(temperature):
+	return 5.67e-8 * temperature ** 4
 
 def extinguish(irradiance, optical_depth, cos_zenith):
 	return irradiance * math.exp(-optical_depth/cos_zenith)
