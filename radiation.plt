@@ -10,7 +10,7 @@ set autoscale
 set xlabel "Time (month)"
 set ylabel "Insolation (\\si{\\watt\\per\\meter\\squared})"
 
-plot 'radiation.dat' using 1:2 notitle lw 1
+plot 'one_year_toa.dat' using 1:2 notitle lw 1
 
 set output "toa-model-verification.tex"
 set format x "%H:%M"
@@ -18,5 +18,5 @@ set xrange ["2010-10-11 00:00:00":"2010-10-12 00:00:00"]
 set xlabel "Time"
 
 plot 'London_MET_20102012.csv' using 1:4 title "Observed SW", \
-     'radiation.dat' using 1:2 title "Modelled SW", \
+     'one_year_toa.dat' using 1:2 title "Modelled SW", \
      'London_MET_20102012.csv' using 1:5 title "Observed LW"
