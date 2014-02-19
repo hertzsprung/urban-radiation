@@ -24,5 +24,5 @@ radiation.pdf: radiation.tex $(GRAPHS)
 
 $(GRAPHS): radiation.plt radiation.py one_year_toa.py model_obs_merge.py
 	./one_year_toa.py 51 > one_year_toa.dat
-	./model_obs_merge.py London_MET_20102012.csv 51 0.45 > model_obs.dat
+	./model_obs_merge.py London_MET_20102012.csv London_CL31_CLDW15_15min_OctDec.csv 51 0.45 > model_obs.dat 2> parse-errors.log
 	$(GNUPLOT) -e "load '$<'"
