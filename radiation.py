@@ -45,6 +45,26 @@ def irradiance(temperature):
 def extinguish(irradiance, optical_depth, cos_zenith):
 	return irradiance * math.exp(-optical_depth/cos_zenith)
 
+def vapour_pressure(relative_humidity, temperature):
+	temperature_celsius = temperature-273.15
+	saturated_vapour_pressure = 6.112 * math.exp(17.67 * temperature_celsius / (temperature_celsius + 243.5))
+	return relative_humidity * saturated_vapour_pressure# * 100.0 # for hPa->Pa
+
+# TODO: this is ideal gas law, but isn't what's used in Loridan
+def water_content(vapour_pressure, temperature):
+	return vapour_pressure / (461.5 * temperature)
+
+def water_content_area(vapour_pressure, temperature):
+	return 46.5 * (vapour_pressure / temperature)
+
+def clear_sky_emissivity(precipitable_water_content):
+	return 1 - (1 + precipitable_water_content) * math.exp(-math.sqrt(1.2 + 3.0*precipitable_water_content))
+
+def downwelling_longwave(temperature, cloud_cover, clear_sky_emissivity):
+	if not type(cloud_cover) is float:
+		cloud_cover = 0.0
+	return (clear_sky_emissivity + (1 - clear_sky_emissivity)*cloud_cover) * irradiance(temperature)
+
 def to_date(day_of_year, seconds_of_day):
 	return datetime.datetime(2010, 1, 1) + datetime.timedelta(day_of_year, seconds_of_day)
 

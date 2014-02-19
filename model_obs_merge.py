@@ -35,7 +35,7 @@ cloud_optical_depth_coeff = 0.29
 mast_observations = open(mast_observations_filename, 'r')
 cloud_observations = load_cloud_observations(open(cloud_observations_filename, 'r'))
 
-print('#timestamp, observed_toa, observed_shortwave, observed_longwave, model_toa, observed_optical_depth, model_shortwave, model_longwave, observed_rh, observed_rain, observed_cloud_cover, model_optical_depth')
+print('#timestamp, observed_toa, observed_shortwave, observed_longwave, model_toa, observed_optical_depth, model_shortwave, model_longwave_loridan, observed_rh, observed_rain, observed_cloud_cover, model_optical_depth, vapour_pressure, precipitable_water_content, clear_sky_emissivity, model_longwave_airtemp')
 for line in mast_observations.readlines():
 	if line.startswith('#'):
 		continue
@@ -47,8 +47,8 @@ for line in mast_observations.readlines():
 	observed_toa = float(tokens[2])
 	observed_shortwave = float(tokens[3])
 	observed_longwave = tokens[4]
-	observed_air_temp = float(tokens[5]) + 273.2
-	observed_rh = float(tokens[6])
+	observed_air_temperature = float(tokens[5]) + 273.15
+	observed_rh = float(tokens[6]) / 100.0
 	observed_rain = float(tokens[7])
 	if timestamp in cloud_observations:
 		observed_cloud_cover = cloud_observations[timestamp]
@@ -60,6 +60,9 @@ for line in mast_observations.readlines():
 	observed_tau = radiation.optical_depth(observed_toa, observed_shortwave, mu)
 	model_tau = model_optical_depth(observed_cloud_cover, cloud_optical_depth_coeff, clear_sky_optical_depth, default_optical_depth)
 	model_shortwave = radiation.extinguish(model_toa, model_tau, mu)
-	model_longwave = radiation.irradiance(observed_air_temp)
-	# TODO: compute longwave using stefan boltzman on air temperature
-	print(','.join([str(timestamp), str(observed_toa), str(observed_shortwave), observed_longwave, str(model_toa), str(observed_tau), str(model_shortwave), str(model_longwave), str(observed_rh), str(observed_rain), str(observed_cloud_cover), str(model_tau)]))
+	vapour_pressure = radiation.vapour_pressure(observed_rh, observed_air_temperature)
+	precipitable_water_content = radiation.water_content_area(vapour_pressure, observed_air_temperature)
+	clear_sky_emissivity = radiation.clear_sky_emissivity(precipitable_water_content)
+	model_loridan_longwave = radiation.downwelling_longwave(observed_air_temperature, observed_cloud_cover, clear_sky_emissivity)
+	model_longwave_simple = radiation.irradiance(observed_air_temperature)
+	print(','.join([str(timestamp), str(observed_toa), str(observed_shortwave), observed_longwave, str(model_toa), str(observed_tau), str(model_shortwave), str(model_loridan_longwave), str(observed_rh), str(observed_rain), str(observed_cloud_cover), str(model_tau), str(vapour_pressure), str(precipitable_water_content), str(clear_sky_emissivity), str(model_longwave_simple)]))

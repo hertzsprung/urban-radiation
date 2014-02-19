@@ -7,17 +7,25 @@
 \usepackage{mathtools}
 
 \newcommand\eqnumbered{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand\Kdownsfc{{K\!\!\downarrow}_\mathrm{SFC}}
+\newcommand\Kdowntoa{{K\!\!\downarrow}_\mathrm{TOA}}
+\newcommand\Ldownsfc{{L\!\!\downarrow}_\mathrm{SFC}}
 
 \begin{document}
 \title{Impact of urban atmospheric conditions on radiation receipt in London}
 \author{Elizabeth Erhbar, Emily McKie, Maurice John Lally, James Shaw}
 \maketitle
+%TODO: use K downarrow, L downarrow everywhere
 
-Our model starts by estimating the insolation at the top of the atmosphere (TOA).  From, TODO: section 9.4 ambaum, the insolation $S$ is related to the total solar irradiance $S_0$ by
+\section{Model}
+\subsection{Design}
+The radiation model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation throuh an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on Loridan's longwave parameterisation.
+\subsubsection{Geometry}
+Our model starts by estimating the insolation at the top of the atmosphere (TOA).  From, TODO: section 9.4 ambaum, the insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$
 \begin{align*}
-S &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
+\Kdowntoa &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{Neglecting orbital eccentricity this becomes}
-S &= S_0 \cos \theta
+\Kdowntoa &= S_0 \cos \theta
 \intertext{$\theta$ is the solar zenith angle which is approximated by}
 \cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h
 \end{align*}
@@ -31,20 +39,6 @@ The declination of the Sun $\delta$ is approximated by
 \end{align*}
 where $N$ is the day of the year with $N=0$ being January 1.  This model results in insolation with annual and daily periods as seen in Figure~\ref{fig:toa-model}.
 
-To approximate the insolation at the surface we compare insolation at the surface with insolation at the top of the atmosphere to calculate an average optical depth using the Beer-Lambert law
-\begin{align*}
-&& S_\mathrm{SFC} &= S_\mathrm{TOA}\: \exp \left( -\frac{\tau}{\mu} \right) \\
-\text{or equivalently} && \tau &= \mu \: \ln \left( \frac{S_\mathrm{SFC}}{S_\mathrm{TOA}} \right)
-\end{align*}
-We find the average optical depth $\langle \tau \rangle = 0.45$.
-
-The downwelling longwave radiation at the surface can be estimated by assuming that the air emits black body radiation, hence
-\begin{align*}
-I_{LW} &= \sigma T^4
-\end{align*}
-
-We can verify the model by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  In Figure~\ref{fig:toa-model-verification} we see that the model gives a crude estimate of surface insolation because the optical depth is not constant ($\sigma=0.39$).  Longwave radiation is better approximated but overestimates the observed value.  This could be due to the model wrongly assuming that air is a blackbody, and ignoring absorption and scattering effects.
-
 \begin{figure}
 \centering
 \input{toa-model}
@@ -52,10 +46,58 @@ We can verify the model by comparing its output with radiation observed at KSS (
 \label{fig:toa-model}
 \end{figure}
 
+\subsubsection{Shortwave insolation}
+\begin{figure}
+\centering
+\input{cloud-tau-fit}
+\caption{Relationship between cloud cover and observed optical depth}
+\label{fig:cloud-tau-fit}
+\end{figure}
+
+To model the insolation at the surface we estimate the optical depth of the atmosphere at a given time, $\tau(t)$.  This is calculated by comparing insolation at the surface, $\Kdownsfc$, and at the top of the atmosphere, $\Kdowntoa$ using the Beer-Lambert law
+\begin{align*}
+&& \Kdownsfc &= \Kdowntoa\: \exp \left( -\frac{\tau}{\mu} \right) \\
+\text{or equivalently} && \tau &= \mu \: \ln \left( \frac{\Kdownsfc}{\Kdowntoa} \right)
+\end{align*}
+In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed cloud cover fraction $F_\mathrm{cloud}$ and optical depth $\tau$.  Using a simple linear regression we find
+\begin{align*}
+\tau \approx \gamma F_\mathrm{cloud} + \tau_\mathrm{clear}
+\end{align*}
+where $\tau_\mathrm{clear}$ is the optical depth of clear sky ($F_\mathrm{cloud} = 0$) and $\gamma$ is the cloud optical depth coefficient.  At times when cloud coverage observations are unavailable surface insolation is modelled using the mean optical depth $\langle \tau \rangle$.  We find that $\tau_\mathrm{clear} = 0.14$, $\gamma =  0.29$ and $\langle \tau \rangle = 0.45$.
+
+\subsubsection{Longwave radiation}
+The downwelling longwave radiation at the surface, $\Ldownsfc$, can be estimated by using a single-slab, isothermal atmosphere.  Using the observed air temperature immediately above the surface and assuming the atmosphere radiates as a blackbody we can use the Stefan--Boltzmann law
+\begin{align}
+\Ldownsfc = \varepsilon_\mathrm{ATM} \sigma T_\mathrm{ATM}^4 \label{eq:stefan-boltzmann}
+\end{align}
+where we assume that the atmospheric emissivity $\varepsilon_\mathrm{ATM} = 1$.  In our analysis in section~\ref{sec:model-analysis} we find that this simple approximation overestimates downwelling longwave radiation.
+
+TODO Loridan et al propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$
+\begin{align*}
+w &= 46.5 \frac{e(\si{\hecto\pascal})}{T_\mathrm{ATM}(\si{\kelvin})}
+\intertext{From TODO ambaum, the vapour pressure is a function of relative humidity and saturated vapour pressure $e_s$}
+e &= \mathrm{RH} \: e_s(T)
+\intertext{where the saturated vapour pressure can be estimated by Tetens' formula}
+e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si{\celsius}) + 243.5} \right)
+\intertext{The atmospheric emissivity is based on clear-sky emissivity and cloud cover fraction}
+\varepsilon_\mathrm{ATM} &= \varepsilon_\mathrm{clear} + \left(1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \\
+\varepsilon_\mathrm{clear} &= 1 - \left( 1 + w \right) \exp \left( - \sqrt{1.2 + 3w} \right)
+\intertext{Substituting into Equation~\ref{eq:stefan-boltzmann}, the parameterisation of $\Ldownsfc$ becomes}
+\Ldownsfc &= \left[ \varepsilon_\mathrm{clear} + \left( 1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \right] \sigma T_\mathrm{ATM}^4
+\end{align*}
+
+\subsection{Analysis}
+\label{sec:model-analysis}
+We verify the model by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  In Figure~\ref{fig:toa-model-verification} we see that the model gives a  estimate of surface insolation because the optical depth is not constant ($\sigma=0.39$).  Longwave radiation is better approximated but overestimates the observed value.  This could be due to the model wrongly assuming that air is a blackbody, and ignoring absorption and scattering effects.
+
 \begin{figure}
 \centering
 \input{toa-model-verification}
 \caption{Comparison of modelled and observed radiation}
 \label{fig:toa-model-verification}
 \end{figure}
+
+\subsection{Further work}
+% probabalistic model based on uncertainty of SW linear regression
+
 \end{document}
