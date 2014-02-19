@@ -40,6 +40,8 @@ set xrange ["2010-10-27 00:00:00":"2010-10-30 00:00:00"]
 set xlabel "Time"
 set format x "%H:%M"
 set ytic auto mirror
+unset y2label
+unset y2tic
 plot 'model_obs.dat' using 1:4 title "Observed", \
      'model_obs.dat' using 1:16 title "Temperature-only model", \
      'model_obs.dat' using 1:8 title "Loridan model"
