@@ -3,7 +3,7 @@ TEXCOUNT := texcount
 GNUPLOT := gnuplot
 R := /usr/bin/R
 
-GRAPHS := toa-model.tex toa-model-verification.tex
+GRAPHS := toa-model.tex extended-cloud.tex
 
 .PHONY: all wc clean
 
