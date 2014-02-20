@@ -15,13 +15,12 @@
 \title{Impact of urban atmospheric conditions on radiation receipt in London}
 \author{Elizabeth Erhbar, Emily McKie, Maurice John Lally, James Shaw}
 \maketitle
-%TODO: use K downarrow, L downarrow everywhere
 
 \section{Model}
-TODO: explain approach, where our observations come from and over what period the data has been collected.
+The radiation model was constructed around observation data collected from (TODO: MET mast instrument name) from January 2010 to December 2012, and Vaisala CL31 cloud cover data from October to December 2010.  Both instruments are installed at KSS. TODO: footnote explaining where that is
 
 \subsection{Design}
-The radiation model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation throuh an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on Loridan's longwave parameterisation TODO cite loridan.
+The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation throuh an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on Loridan's longwave parameterisation TODO cite loridan.
 \subsubsection{Geometry}
 Our model starts by estimating the insolation at the top of the atmosphere (TOA).  From, TODO: section 9.4 ambaum, the insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$
 \begin{align}
@@ -91,7 +90,7 @@ e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si
 
 \subsection{Analysis}
 \label{sec:model-analysis}
-The model is verified by comparing its output with radiation observed at KSS (TODO footnote for what KSS means).  Longwave radiation is better approximated but overestimates the observed value.  
+The model is verified by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
 
 As seen in Figure~\ref{fig:shortwave-verification}, the model accurately diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{112}{\watt\per\meter\squared}.  When total cloud cover is observed for an extended duration of about one day, shortwave radiation is overestimated.  An example is shown in Figure~\ref{fig:extended-cloud}.  In section~\ref{sec:further-work} we suggest a way of improving this.
 
