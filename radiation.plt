@@ -5,18 +5,21 @@ set datafile missing 'NA'
 set timefmt "%Y-%m-%d %H:%M:%S"
 set xdata time
 
-set term epslatex color size 3,3
+set term epslatex color size 2.8,2.5
 set output "toa-model-annual.tex"
 set format x "%b"
 set autoscale
 unset xlabel
-set ylabel "TOA insolation (\\si{\\watt\\per\\meter\\squared})"
+set xtics rotate
+set ylabel "TOA insolation (\\si{\\watt\\per\\meter\\squared})" offset 2
 
 plot 'one_year_toa.dat' using 1:2 notitle
 
+set term epslatex color size 2.4,2.5
 set output "toa-model-daily.tex"
 set format x "%H:%M"
 set xrange ["2010-01-01 00:00:00":"2010-01-02 00:00:00"]
+unset ylabel
 
 plot 'one_year_toa.dat' using 1:2 notitle
 
@@ -27,6 +30,7 @@ set format x "%H:%M"
 set xrange ["2010-10-23 00:00:00":"2010-10-26 00:00:00"]
 set xlabel "Time"
 set ylabel "Irrandiance (\\si{\\watt\\per\\meter\\squared})"
+set xtics
 
 plot 'model_obs.dat' using 1:5 title "Modelled TOA SW", \
      'model_obs.dat' using 1:3 title "Observed SFC SW", \
@@ -79,7 +83,7 @@ plot 'model_obs.dat' using 1:3 title "Obs SFC SW", \
      'model_obs.dat' using 1:7 title "Model SFC SW", \
      'model_obs.dat' using 1:4 title "Obs SFC LW", \
      'model_obs.dat' using 1:8 title "Model SFC LW", \
-     'model_obs.dat' using 1:11 axes x1y2 title "cloud_cover"
+     'model_obs.dat' using 1:11 axes x1y2 title "cloud cover"
 
 #     'model_obs.dat' using 1:10 axes x1y2 title "rain (mm)", \
 #plot 'model_obs.dat' using 1:5 title "TOA", \
