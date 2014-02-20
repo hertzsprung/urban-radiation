@@ -1,9 +1,10 @@
 PDFLATEX := pdflatex
+BIBER := biber
 TEXCOUNT := texcount
 GNUPLOT := gnuplot
 R := /usr/bin/R
 
-GRAPHS := toa-model.tex extended-cloud.tex
+GRAPHS := toa-model-annual.tex toa-model-daily.tex extended-cloud.tex
 
 .PHONY: all wc clean
 
@@ -18,8 +19,9 @@ clean:
 stats:
 	$(R) --vanilla < statistics.r
 
-radiation.pdf: radiation.tex $(GRAPHS)
+radiation.pdf: radiation.tex radiation.bib $(GRAPHS)
 	$(PDFLATEX) $<
+	$(BIBER) radiation
 	$(PDFLATEX) $<
 
 $(GRAPHS): radiation.plt radiation.py one_year_toa.py model_obs_merge.py

@@ -4,6 +4,9 @@
 *.eps
 *.swp
 *.dat
+*.bcf
+*.blg
+*.bbl
 
 *.py[cod]
 

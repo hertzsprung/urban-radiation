@@ -5,6 +5,10 @@
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage[backend=biber, style=alphabetic]{biblatex}
+
+\addbibresource{radiation.bib}
 
 \newcommand\eqnumbered{\addtocounter{equation}{1}\tag{\theequation}}
 \newcommand\Kdownsfc{{K\!\!\downarrow}_\mathrm{SFC}}
@@ -20,15 +24,16 @@
 The radiation model was constructed around observation data collected from (TODO: MET mast instrument name) from January 2010 to December 2012, and Vaisala CL31 cloud cover data from October to December 2010.  Both instruments are installed at KSS. TODO: footnote explaining where that is
 
 \subsection{Design}
-The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation throuh an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on Loridan's longwave parameterisation TODO cite loridan.
+The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation through an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on Loridan's longwave parameterisation TODO cite loridan.
+
 \subsubsection{Geometry}
-Our model starts by estimating the insolation at the top of the atmosphere (TOA).  From, TODO: section 9.4 ambaum, the insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$
+The model initially estimates the insolation at the top of the atmosphere (TOA).  From \cite{ambaum} section 9.4 ambaum, the insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$
 \begin{align}
 \Kdowntoa &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{Neglecting orbital eccentricity this becomes}
 \Kdowntoa &= S_0 \cos \theta
-\intertext{$\theta$ is the solar zenith angle which is approximated by}
-\cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h
+\intertext{where $\theta$ is the solar zenith angle which is approximated by}
+\cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h % TODO Jacobson p317
 \end{align}
 where $\varphi$ is the latitude, $h$ is the hour angle and $\delta$ is the declination of the Sun.  Given we are concerned with radiation in London, we can assume a longitude of \ang{0}, so the hour angle is approximately
 \begin{align}
@@ -42,8 +47,15 @@ where $N$ is the day of the year with $N=0$ being January 1.  This model results
 
 \begin{figure}
 \centering
-\input{toa-model}
-\caption{Insolation model at \SI{51}{\degree N}}
+\begin{subfigure}{0.45\textwidth}
+\input{toa-model-annual}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\input{toa-model-daily}
+\caption{Insolation on January 1 2010}
+\end{subfigure}
+\caption{Modelled insolation at top of the atmosphere at \SI{51}{\degree N} over 2010.}
 \label{fig:toa-model}
 \end{figure}
 
@@ -51,7 +63,7 @@ where $N$ is the day of the year with $N=0$ being January 1.  This model results
 \begin{figure}
 \centering
 \input{cloud-tau-fit}
-\caption{Relationship between cloud cover and observed optical depth}
+\caption{Relation between cloud cover and observed optical depth}
 \label{fig:cloud-tau-fit}
 \end{figure}
 
@@ -74,7 +86,7 @@ The downwelling longwave radiation at the surface, $\Ldownsfc$, can be estimated
 \end{align}
 where we assume that the atmospheric emissivity $\varepsilon_\mathrm{ATM} = 1$.  In our analysis in section~\ref{sec:model-analysis} we find that this simple approximation overestimates downwelling longwave radiation.
 
-TODO Loridan et al propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$
+\cite{loridan} propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$
 \begin{align}
 w &= 46.5 \frac{e(\si{\hecto\pascal})}{T_\mathrm{ATM}(\si{\kelvin})}
 \intertext{From TODO ambaum, the vapour pressure is a function of relative humidity and saturated vapour pressure $e_s$}
@@ -90,7 +102,7 @@ e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si
 
 \subsection{Analysis}
 \label{sec:model-analysis}
-The model is verified by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
+The model is evaluated by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
 
 As seen in Figure~\ref{fig:shortwave-verification}, the model accurately diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{112}{\watt\per\meter\squared}.  When total cloud cover is observed for an extended duration of about one day, shortwave radiation is overestimated.  An example is shown in Figure~\ref{fig:extended-cloud}.  In section~\ref{sec:further-work} we suggest a way of improving this.
 
@@ -124,5 +136,8 @@ TODO better analysis to distinguish extent of systematic bias/unsystematic error
 TODO make shortwave model cope with extended cloud cover -- Loridan says we can guess cloud cover based on RH and temperature
 TODO probabalistic model based on uncertainty of SW linear regression
 TODO explore aerosols, rainfall
+
+\section{Bibliography}
+\printbibliography
 
 \end{document}

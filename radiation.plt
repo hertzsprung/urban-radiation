@@ -1,18 +1,26 @@
-set term epslatex color size 4.5,3
+set term epslatex color size 5,3
 set style data lines
 set datafile separator ','
 set datafile missing 'NA'
 set timefmt "%Y-%m-%d %H:%M:%S"
 set xdata time
 
-set output "toa-model.tex"
+set term epslatex color size 3,3
+set output "toa-model-annual.tex"
 set format x "%b"
 set autoscale
 unset xlabel
 set ylabel "TOA insolation (\\si{\\watt\\per\\meter\\squared})"
 
-plot 'one_year_toa.dat' using 1:2 notitle lw 1
+plot 'one_year_toa.dat' using 1:2 notitle
 
+set output "toa-model-daily.tex"
+set format x "%H:%M"
+set xrange ["2010-01-01 00:00:00":"2010-01-02 00:00:00"]
+
+plot 'one_year_toa.dat' using 1:2 notitle
+
+set term epslatex color size 5,3
 set output "shortwave-verification.tex"
 set key outside top center horizontal
 set format x "%H:%M"
