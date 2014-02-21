@@ -13,8 +13,6 @@ To compile the report you will need:
 - Python 3
 
 Optionally, you will need
-- R (if you want to compute statistics)
+- R with [Metrics](https://github.com/benhamner/Metrics/tree/master/R) library (if you want to compute statistics)
 - texcount (if you want a word count)
 - ghostscript and epspdf if you want to generate presentation plots
-
-
