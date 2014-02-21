@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{subcaption}
-\usepackage[backend=biber, style=alphabetic]{biblatex}
+\usepackage[backend=biber, style=authoryear]{biblatex}
 
 \addbibresource{radiation.bib}
 
@@ -33,7 +33,7 @@ The radiation model was constructed around observation data collected from (TODO
 The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation through an atmosphere with a degree of cloud cover.  A simple longwave model is present that is based on air temperature alone, which is then refined based on longwave parameterisation from \cite{loridan}.
 
 \subsection{Geometry}
-The model initially estimates the insolation at the top of the atmosphere (TOA).  From \cite{ambaum} section 9.4, the insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$
+The model initially estimates the insolation at the top of the atmosphere (TOA).  The insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$ \parencite{ambaum} section 9.4
 \begin{align}
 \Kdowntoa &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{where $\langle r_E \rangle$ is the average distance between the Earth and the Sun and $r_E(t)$ is the distance at a given time.  This orbital eccentricity is neglected since it is small, so the equation simplifies to}
@@ -67,19 +67,19 @@ where $N$ is the day of the year with $N=0$ being January 1.  This model results
 \end{figure}
 
 \subsection{Shortwave insolation}
-To model the insolation at the surface we estimate the optical depth of the atmosphere at a given time, $\tau(t)$.  This is calculated by comparing insolation at the surface, $\Kdownsfc$, and at the top of the atmosphere, $\Kdowntoa$ using the Beer-Lambert law \cite{stephens}
+To model the insolation at the surface we estimate the optical depth of the atmosphere at a given time, $\tau(t)$.  This is calculated by comparing insolation at the surface, $\Kdownsfc$, and at the top of the atmosphere, $\Kdowntoa$ using the Beer-Lambert law \parencite{stephens}
 \begin{align}
 && \Kdownsfc &= \Kdowntoa\: \exp \left( -\frac{\tau}{\mu} \right) \\
 \text{or equivalently} && \tau &= \mu \: \ln \left( \frac{\Kdownsfc}{\Kdowntoa} \right)
 \end{align}
-In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed cloud cover fraction $F_\mathrm{cloud}$ and optical depth $\tau$.  Using a simple linear regression we find
+The model treats optical depth as a linear function of cloud cover fraction $F_\mathrm{cloud}$ such that 
 \begin{align}
-\tau &= \gamma F_\mathrm{cloud} + \tau_\mathrm{clear}
+\tau &= \gamma F_\mathrm{cloud} + \tau_\mathrm{clear} \label{eq:linear-sw-cloud}
 \end{align}
-where $\tau_\mathrm{clear}$ is the optical depth of clear sky ($F_\mathrm{cloud} = 0$) and $\gamma$ is the cloud optical depth coefficient.  At times when cloud coverage observations are unavailable surface insolation is modelled using the mean optical depth $\langle \tau \rangle$.  
+where $\tau_\mathrm{clear}$ is the optical depth of clear sky ($F_\mathrm{cloud} = 0$) and $\gamma$ is the cloud optical depth coefficient.  At times when cloud coverage observations are unavailable surface insolation is modelled using the mean optical depth $\langle \tau \rangle$.  Values of $\gamma$, $\tau_\mathrm{clear}$ and $\langle \tau \rangle$ are found empirically in section~\ref{sec:parameterization}.
 
 \subsection{Longwave radiation}
-The downwelling longwave radiation at the surface, $\Ldownsfc$, can be estimated by using a single-slab, isothermal atmosphere.  Using the observed air temperature immediately above the surface and assuming the atmosphere radiates as a blackbody we can use the Stefan--Boltzmann law \cite{ambaum} % TODO p.168
+The downwelling longwave radiation at the surface, $\Ldownsfc$, can be estimated by using a single-slab, isothermal atmosphere.  Using the observed air temperature immediately above the surface and assuming the atmosphere radiates as a blackbody we can use the Stefan--Boltzmann law \parencite[p. 168]{ambaum}
 \begin{align}
 \Ldownsfc = \varepsilon_\mathrm{ATM} \sigma T_\mathrm{ATM}^4 \label{eq:stefan-boltzmann}
 \end{align}
@@ -88,7 +88,7 @@ where we assume that the atmospheric emissivity $\varepsilon_\mathrm{ATM} = 1$. 
 \cite{loridan} propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$
 \begin{align}
 w &= 46.5 \frac{e(\si{\hecto\pascal})}{T_\mathrm{ATM}(\si{\kelvin})}
-\intertext{From \cite{ambaum}, the vapour pressure is a function of relative humidity and saturated vapour pressure $e_s$}
+\intertext{The vapour pressure is a function of relative humidity and saturated vapour pressure $e_s$ \parencite{ambaum}}
 e &= \mathrm{RH} \: e_s(T)
 \intertext{where the saturated vapour pressure can be estimated by Tetens' formula}
 e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si{\celsius}) + 243.5} \right)
@@ -100,6 +100,7 @@ e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si
 \end{align}
 
 \section{Parameterization}
+\label{sec:parameterization}
 TODO: how did we handle SFC SW > TOA SW?  What about other bits of missing data?
 
 TODO: move everything to do with coefficients (anything that depends on observed values) in here
@@ -110,7 +111,8 @@ TODO: move everything to do with coefficients (anything that depends on observed
 \label{fig:cloud-tau-fit}
 \end{figure}
 
-We find that $\langle \tau \rangle = 0.45$, $\tau_\mathrm{clear} = 0.14$,and $\gamma =  0.29$ with a residual sum of squares of 166.
+In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed cloud cover fraction $F_\mathrm{cloud}$ and optical depth $\tau$.  Using a simple linear regression we find coefficients for equation~\ref{eq:linear-sw-cloud} where $\langle \tau \rangle = 0.45$, $\tau_\mathrm{clear} = 0.14$, and $\gamma =  0.29$.
+% TODO with a residual sum of squares of 166.
 %TODO: gnuplot told me this but my knowledge of stats isn't good enough to properly understand it.
 
 \section{Analysis}
