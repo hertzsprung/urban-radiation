@@ -29,7 +29,7 @@ set key outside top center horizontal
 set format x "%H:%M"
 set xrange ["2010-10-23 00:00:00":"2010-10-26 00:00:00"]
 set xlabel "Time"
-set ylabel "Irrandiance (\\si{\\watt\\per\\meter\\squared})"
+set ylabel "Irrandiance (\\si{\\watt\\per\\meter\\squared})" offset 2
 set xtics
 
 plot 'model_obs.dat' using 1:5 title "Modelled TOA SW", \
@@ -38,7 +38,7 @@ plot 'model_obs.dat' using 1:5 title "Modelled TOA SW", \
 
 set output "extended-cloud.tex"
 set xrange ["2010-10-13 00:00:00":"2010-10-16 00:00:00"]
-set y2label "Cloud cover fraction"
+set y2label "Cloud cover fraction" offset -2
 set ytic auto nomirror
 set y2tic auto nomirror
 set y2range [0:1.1]
@@ -49,7 +49,7 @@ plot 'model_obs.dat' using 1:5 title "Modelled TOA SW", \
 
 set output "longwave-verification.tex"
 set xrange ["2010-10-27 00:00:00":"2010-10-30 00:00:00"]
-set xlabel "Time"
+set xlabel "Time" offset 2
 set format x "%H:%M"
 set ytic auto mirror
 unset y2label

@@ -16,7 +16,7 @@ wc:
 	$(TEXCOUNT) radiation.tex
 
 clean:
-	rm -f *.dat radiation.pdf $(GRAPHS)
+	rm -f *.dat radiation.pdf *.bcf *.aux $(GRAPHS)
 
 stats:
 	$(R) --vanilla < statistics.r
