@@ -1,4 +1,4 @@
-PDFLATEX := pdflatex
+PDFLATEX := pdflatex --shell-escape
 BIBER := biber
 TEXCOUNT := texcount
 GNUPLOT := gnuplot
@@ -37,7 +37,12 @@ radiation.pdf: radiation.tex radiation.bib $(GRAPHS)
 	$(BIBER) radiation
 	$(PDFLATEX) $<
 
-$(GRAPHS): radiation.plt radiation.py one_year_toa.py model_obs_merge.py
-	./one_year_toa.py 51 > one_year_toa.dat
-	./model_obs_merge.py London_MET_20102012.csv London_CL31_CLDW15_15min_OctDec.csv 51 > model_obs.dat 2> parse-errors.log
+$(GRAPHS): radiation.plt one_year_toa.dat model_obs.dat
 	$(GNUPLOT) -e "load '$<'"
+
+one_year_toa.dat: one_year_toa.py radiation.py
+	./one_year_toa.py 51 > one_year_toa.dat
+	
+model_obs.dat: model_obs_merge.py radiation.py
+	./model_obs_merge.py London_MET_20102012.csv London_CL31_CLDW15_15min_OctDec.csv 51 > model_obs.dat 2> parse-errors.log
+

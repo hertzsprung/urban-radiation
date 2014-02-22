@@ -7,6 +7,8 @@
 \usepackage{mathtools}
 \usepackage{subcaption}
 \usepackage[backend=biber, style=authoryear, firstinits=true]{biblatex}
+\usepackage{minted}
+\usepackage{booktabs}
 
 \renewbibmacro{in:}{}
 
@@ -18,6 +20,8 @@
 \newcommand\Ldownsfc{{L\!\!\downarrow}_\mathrm{SFC}}
 
 \begin{document}
+\expandafter\def\csname PY@tok@err\endcsname{}
+
 \title{Impact of urban atmospheric conditions on radiation receipt in London}
 \author{Elizabeth Erhbar, Emily McKie, Maurice John Lally, James Shaw}
 \maketitle
@@ -37,7 +41,7 @@ The radiation model was constructed around observation data collected from a Met
 The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation through an atmosphere with an amount of cloud cover.  In section~\ref{sec:longwave-model} a simple longwave model is presented that is based on air temperature alone, which is then refined based on longwave parameterisation from \cite{loridan}.
 
 \subsection{Geometry}
-The model initially estimates the insolation at the top of the atmosphere (TOA).  The insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$ \parencite{ambaum} section 9.4
+The model initially estimates the insolation at the top of the atmosphere (TOA).  The insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$ \parencite[p. 175]{ambaum}
 \begin{align}
 \Kdowntoa &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{where $\langle r_E \rangle$ is the average distance between the Earth and the Sun and $r_E(t)$ is the distance at a given time.  This orbital eccentricity is neglected since it is small, so the equation simplifies to}
@@ -80,7 +84,7 @@ The model treats optical depth as a linear function of cloud cover fraction $F_\
 \begin{align}
 \tau &= \gamma F_\mathrm{cloud} + \tau_\mathrm{clear} \label{eq:linear-sw-cloud}
 \end{align}
-where $\tau_\mathrm{clear}$ is the optical depth of clear sky ($F_\mathrm{cloud} = 0$) and $\gamma$ is the cloud optical depth coefficient.   Values for $\gamma$ and $\tau_\mathrm{clear}$ are found empirically in section~\ref{sec:parameterization}.
+where $\tau_\mathrm{clear}$ is the optical depth of clear sky ($F_\mathrm{cloud} = 0$) and $\gamma$ is the cloud optical depth coefficient.   Values for $\gamma$ and $\tau_\mathrm{clear}$ are found empirically in section~\ref{sec:parameterisation}.
 
 \subsection{Longwave radiation}
 \label{sec:longwave-model}
@@ -90,19 +94,35 @@ The downwelling longwave radiation at the surface, $\Ldownsfc$, can be estimated
 \end{align}
 if we assume that the atmospheric emissivity $\varepsilon_\mathrm{ATM} = 1$.  In our analysis in section~\ref{sec:model-analysis} we find that this simple approximation overestimates downwelling longwave radiation.
 
-\cite{loridan} propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$
+\cite{loridan} propose a more refined longwave radiation model that is controlled by relative humidity $\mathrm{RH}$, cloud cover fraction $F_\mathrm{cloud}$ as well as air temperature.  Precipitable water content is a function of vapour pressure $e$ and temperature $T_\mathrm{ATM}$ \parencite{loridan}
 \begin{align}
-w &= 46.5 \frac{e(\si{\hecto\pascal})}{T_\mathrm{ATM}(\si{\kelvin})}
+w &= 46.5 \frac{e(\si{\hecto\pascal})}{T_\mathrm{ATM}(\si{\kelvin})} \label{eq:precip-water-vapour}
 \intertext{The vapour pressure is a function of relative humidity and saturated vapour pressure $e_s$ \parencite{ambaum}}
 e &= \mathrm{RH} \: e_s(T)
-\intertext{where the saturated vapour pressure can be estimated by Tetens' formula}
+\intertext{where the saturated vapour pressure can be estimated by Tetens' formula \parencite{ambaum}}
 e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si{\celsius}) + 243.5} \right)
-\intertext{The atmospheric emissivity is based on clear-sky emissivity and cloud cover fraction}
-\varepsilon_\mathrm{ATM} &= \varepsilon_\mathrm{clear} + \left(1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \\
-\varepsilon_\mathrm{clear} &= 1 - \left( 1 + w \right) \exp \left( - \sqrt{1.2 + 3w} \right)
-\intertext{Substituting into Equation~\ref{eq:stefan-boltzmann}, the parameterisation of $\Ldownsfc$ becomes}
+\intertext{The atmospheric emissivity is based on clear-sky emissivity and cloud cover fraction \parencite{loridan}}
+\varepsilon_\mathrm{ATM} &= \varepsilon_\mathrm{clear} + \left(1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \label{eq:emissive-atm} \\
+\varepsilon_\mathrm{clear} &= 1 - \left( 1 + w \right) \exp \left( - \sqrt{1.2 + 3w} \right) \label{eq:clear-sky-emissivity}
+\intertext{Substituting into Equation~\ref{eq:stefan-boltzmann}, the parameterisation of $\Ldownsfc$ becomes \parencite{loridan}}
 \Ldownsfc &= \left[ \varepsilon_\mathrm{clear} + \left( 1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \right] \sigma T_\mathrm{ATM}^4
 \end{align}
+To gain physical intuition, the absorptivity of the atmosphere increases with cloud cover and, by Kirchhoff's law \parencite[p. 166]{ambaum}, so does the emissivity $\varepsilon_\mathrm{ATM}$ (equation~\ref{eq:emissive-atm}).  In clear skies, the absorptivity increases with water vapour content since water vapour is a moderate absorber of longwave radiation.  Figure~\ref{fig:emissivity-response} shows the relation between emissivity, relative humidity and cloud cover fraction.
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\input{clear-emissivity}
+\caption{Emissivity response to relative humidity at $T_\mathrm{ATM}$ \SIrange{0}{20}{\celsius} in clear sky conditions from equation~\ref{eq:clear-sky-emissivity}.  Warmer temperatures cause increased absorptivity and emissivity.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\input{cloud-emissivity}
+\caption{Emissivity response to cloud cover at $T_\mathrm{ATM} = \SI{10}{\celsius}$ and RH from 0.5 to 1.0 given by equation~\ref{eq:emissive-atm}. Cloud cover fraction has a greater effect at lower relative humidities.}
+\end{subfigure}
+\caption{Emissivity responses to cloud cover and relative humidity}
+\label{fig:emissivity-response}
+\end{figure}
 
 \subsection{Data cleansing}
 The model must handle records with missing or nonphysical values that are present in the KSS dataset.  
@@ -111,33 +131,49 @@ Optical depth is not calculated in two cases.  First, for some records, the obse
 
 At times when cloud coverage observations are unavailable this affects modelled shortwave and longwave radiation.  Surface insolation is modelled using the mean optical depth $\langle \tau \rangle$.  Cloud cover is assumed to be zero in the Loridan longwave model.
 
-\section{Parameterization}
-\label{sec:parameterization}
+\section{Parameterisation}
+\label{sec:parameterisation}
 
 \begin{figure}
 \centering
 \input{cloud-tau-fit}
-\caption{Relation between cloud cover and observed optical depth}
+\caption{Relation between cloud cover and observed optical depth.  For the KSS dataset shown, 3085 records exist for which both cloud cover and optical depth are present.}
 \label{fig:cloud-tau-fit}
 \end{figure}
 
-In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed cloud cover fraction $F_\mathrm{cloud}$ and optical depth $\tau$.  Using a simple linear regression we find coefficients for equation~\ref{eq:linear-sw-cloud} where $\tau_\mathrm{clear} = 0.14$ and $\gamma =  0.29$.  $\langle \tau \rangle = 0.45$,
-% TODO with a residual sum of squares of 166.
-%TODO: gnuplot told me this but my knowledge of stats isn't good enough to properly understand it.
+In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed cloud cover fraction $F_\mathrm{cloud}$ and optical depth $\tau$.  Using a simple linear regression we find coefficients for equation~\ref{eq:linear-sw-cloud} where $\tau_\mathrm{clear} = 0.14$ and $\gamma =  0.29$.
+
+After data cleansing, the average optical depth was found to be $\langle \tau \rangle = 0.45$.  The value is only used twice since, in the KSS dataset, there are only two records without cloud coverage data.
+
+Coefficients for precipitable water content $w$ and clear sky emissivity $\varepsilon_\mathrm{clear}$ were taken directly from \cite{loridan} (see equations~\ref{eq:precip-water-vapour} and \ref{eq:clear-sky-emissivity} respectively).  In \cite{loridan}, cloud cover is approximated from relative humidity and air temperature values.  However, since the CL31 dataset has precomputed cloud coverage values, we use these in model calculations.
 
 \section{Analysis}
 \label{sec:model-analysis}
-The model is evaluated by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
+The model was evaluated by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
 
-As seen in Figure~\ref{fig:shortwave-verification}, the model accurately diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{112}{\watt\per\meter\squared}.  When total cloud cover is observed for an extended duration of about one day, shortwave radiation is overestimated.  An example is shown in Figure~\ref{fig:extended-cloud}.  In section~\ref{sec:further-work} we suggest a way of improving this.
+As seen in Figure~\ref{fig:shortwave-verification}, the model diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{112}{\watt\per\meter\squared}.  Since $R^2 = 0.2$ for the linear regression between cloud cover and optical depth, this error should be expected.
 
-Longwave radiation is systematically overestimated by the simple temperature-only model with a RMSE of \SI{59}{\watt\per\meter\squared}.  The Loridan longwave model is more accurate having a RMSE of \SI{47}{\watt\per\meter\squared}.  The two longwave models are compared with observed radiation in Figure~\ref{fig:longwave-verification} which shows systematic errors in both models.
+When total cloud cover is observed for an extended duration of about one day, shortwave radiation is overestimated.  An example is shown in Figure~\ref{fig:extended-cloud}.  In section~\ref{sec:further-work} we suggest a way of improving this.
 
-TODO: This could be due to the model wrongly assuming that air is a blackbody, and ignoring absorption and scattering effects.  Or the coefficients used in Loridan aren't quite right for us?  But I wouldn't know how to recalculate them...
+\begin{table}[!b]
+\centering
+\begin{tabular}{ r @{\hspace{2em}} c c c c }
+\toprule
+Longwave model &	RMSE (\si{\watt\per\square\meter}) &	$\langle \Ldownsfc^\mathrm{model} \rangle - \langle \Ldownsfc^\mathrm{obs} \rangle$ (\si{\watt\per\square\meter}) \\ \midrule
+Temperature-only &	59 &	 				\num[retain-explicit-plus]{+47} \\
+Loridan &		47 &					\num{-32} \\ \bottomrule
+\end{tabular}
+\caption{Summary of longwave model errors.  $\langle \Ldownsfc^\mathrm{model} \rangle$ is the mean model value, $\langle \Ldownsfc^\mathrm{obs} \rangle$ the mean observed value.  The Loridan model has lower RMSE and has a mean is closer to the observed mean.}
+\label{tab:longwave-error}
+\end{table}
+
+Longwave radiation is systematically overestimated by the simple temperature-only model.  This is clearly seen in Figure~\ref{fig:longwave-verification}.  The simple longwave model has a RMSE of \SI{59}{\watt\per\meter\squared}.  The Loridan longwave model is more accurate having a RMSE of \SI{47}{\watt\per\meter\squared}.  The two longwave model errors are summarized in Table~\ref{tab:longwave-error}.
+
+There are several possibilities for model error in longwave radiation.  First, both models assume an isothermal atmosphere and use air temperature at the surface to estimate $\Ldownsfc$.  They both assume that air radiates as a black body.  Second, aerosol concentration is not included in either model; possible aerosol effects are discussed in section~\ref{sec:further-work}.  Third, recalculating the coefficients for the Loridan model using on the KSS dataset may reduce model error (see equations~\ref{eq:precip-water-vapour} and \ref{eq:clear-sky-emissivity}).
 \begin {figure}
 \centering
 \input{shortwave-verification}
-\caption{Comparison of modelled and observed shortwave radiation TODO date range}
+\caption{Comparison of modelled and observed shortwave radiation from October 23 -- October 26, 2010}
 \label{fig:shortwave-verification}
 \end{figure}
 
@@ -151,18 +187,32 @@ TODO: This could be due to the model wrongly assuming that air is a blackbody, a
 \begin{figure}
 \centering
 \input{longwave-verification}
-\caption{Modelled and observed longwave radiation TODO date range}
+\caption{Modelled and observed longwave radiation from October 27 -- October 30, 2010.  It is seen that the Loridan model better captures variation in longwave radiation.}
 \label{fig:longwave-verification}
 \end{figure}
 
 \section{Further work}
 \label{sec:further-work}
-TODO better analysis to distinguish extent of systematic bias/unsystematic error
-TODO make shortwave model cope with extended cloud cover -- Loridan says we can guess cloud cover based on RH and temperature
-TODO probabalistic model based on uncertainty of SW linear regression
-TODO explore aerosols, rainfall
+Our analysis has neglected observation error and uncertainty in cloud optical depth coefficient $\gamma$.  Ideally, our model would incorporate these sources of error and model radiation as a probability distribution rather than a single value.
 
+The shortwave model presented is a crude one.  A selection of superior cloud cover shortwave models are described in \cite{ingram}.  The shortwave model could also be improved by including rayleigh scattering, water vapour and aerosol extinction effects.
+
+Additionally, it may be worthwhile exploring the rainfall measurements present in the KSS dataset since precipitation is known to reduce aerosol concentrations due to washout. TODO citation. 
 
 \printbibliography
+
+\appendix
+\chapter{Model source code}
+\vspace{-2em}
+Source code is available online at \url{https://github.com/hertzsprung/urban-radiation}.
+
+\section{\texttt{radiation.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{radiation.py}
+
+\section{\texttt{one\_year\_toa.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{one_year_toa.py}
+
+\section{\texttt{model\_obs\_merge.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{model_obs_merge.py}
 
 \end{document}
