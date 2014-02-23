@@ -61,6 +61,7 @@ for line in mast_observations.readlines():
 
 	mu = max(0.01, radiation.cos_zenith(
 		latitude,
+		radiation.year(timestamp),
 		radiation.day_of_year(timestamp),
 		radiation.seconds_of_day(timestamp)))
 

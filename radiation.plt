@@ -5,17 +5,17 @@ set datafile missing 'NA'
 set timefmt "%Y-%m-%d %H:%M:%S"
 set xdata time
 
-set term epslatex color size 2.8,2.5
+set term epslatex color size 2.8,2.3
 set output "toa-model-annual.tex"
 set format x "%b"
 set autoscale
 unset xlabel
 set xtics rotate
-set ylabel "TOA insolation (\\si{\\watt\\per\\meter\\squared})" offset 2
+set ylabel "TOA insolation (\\si{\\watt\\per\\meter\\squared})" offset 2.5
 
 plot 'one_year_toa.dat' using 1:2 notitle
 
-set term epslatex color size 2.4,2.5
+set term epslatex color size 2.4,2.3
 set output "toa-model-daily.tex"
 set format x "%H:%M"
 set xrange ["2010-01-01 00:00:00":"2010-01-02 00:00:00"]
@@ -23,7 +23,7 @@ unset ylabel
 
 plot 'one_year_toa.dat' using 1:2 notitle
 
-set term epslatex color size 5,3.5
+set term epslatex color size 5,3
 set output "shortwave-verification.tex"
 set key outside top center horizontal
 set xtics norotate
@@ -32,17 +32,18 @@ set xrange ["2010-10-23 00:00:00":"2010-10-26 00:00:00"]
 set xlabel "Time" offset 0,-1
 set ylabel "Irrandiance (\\si{\\watt\\per\\meter\\squared})" offset 2
 set xtics offset 0,-0.5
-
-plot 'model_obs.dat' using 1:5 title "Modelled $\\Kdowntoa$", \
-     'model_obs.dat' using 1:3 title "Observed $\\Kdownsfc$", \
-     'model_obs.dat' using 1:7 title "Modelled $\\Kdownsfc$"
-
-set output "extended-cloud.tex"
-set xrange ["2010-10-13 00:00:00":"2010-10-16 00:00:00"]
 set y2label "Cloud cover fraction" offset -2
 set ytic auto nomirror
 set y2tic auto nomirror
 set y2range [0:1.1]
+
+plot 'model_obs.dat' using 1:5 title "Modelled $\\Kdowntoa$", \
+     'model_obs.dat' using 1:3 title "Observed $\\Kdownsfc$", \
+     'model_obs.dat' using 1:7 title "Modelled $\\Kdownsfc$", \
+     'model_obs.dat' using 1:11 axes x1y2 title "Cloud cover fraction"
+
+set output "extended-cloud.tex"
+set xrange ["2010-10-13 00:00:00":"2010-10-16 00:00:00"]
 plot 'model_obs.dat' using 1:5 title "Modelled $\\Kdowntoa$", \
      'model_obs.dat' using 1:3 title "Observed $\\Kdownsfc$", \
      'model_obs.dat' using 1:7 title "Modelled $\\Kdownsfc$", \

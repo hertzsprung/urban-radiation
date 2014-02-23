@@ -29,7 +29,7 @@
 \begin{abstract}
 TODO
 
-A model is developed to predict downwelling longwave and shortwave radiation at the surface using observed cloud cover, air temperature and relative humidity.  Model results have a root-mean-squared error of \SI{112}{\watt\per\meter\squared} for shortwave and \SI{47}{\watt\per\meter\squared} for longwave.
+A model is developed to predict downwelling longwave and shortwave radiation at the surface using observed cloud cover, air temperature and relative humidity.  Model results have a root-mean-squared error of \SI{111}{\watt\per\meter\squared} for shortwave and \SI{47}{\watt\per\meter\squared} for longwave.
 \end{abstract}
 
 \tableofcontents
@@ -41,38 +41,55 @@ The radiation model was constructed around observation data collected from a Met
 The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation through an atmosphere with an amount of cloud cover.  In section~\ref{sec:longwave-model} a simple longwave model is presented that is based on air temperature alone, which is then refined based on longwave parameterisation from \cite{loridan}.
 
 \subsection{Geometry}
+\begin{figure}
+\centering
+\begin{subfigure}{0.52\textwidth}
+\hspace{-1em}
+\input{toa-model-annual}
+\caption{Annual variation of insolation in 2010.  Midday insolation peaks in the summer when $\theta$ is close to zero.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+\hspace{-2.2em}
+\input{toa-model-daily}
+\caption{Insolation on January 1 2010.  Times of day in UTC with sunrise and sunset occuring around 08:00 and 16:00 respectively.}
+\end{subfigure}
+\caption{Modelled insolation at top of the atmosphere ($\Kdowntoa$) above London (\SI{51}{\degree N}) showing annual and diurnal periodicity.  $\Kdowntoa$ is dependent upon the solar zenith angle $\theta$ as given by equation~\ref{eq:solar-zenith}}
+\label{fig:toa-model}
+\end{figure}
+
 The model initially estimates the insolation at the top of the atmosphere (TOA).  The insolation at the top of the atmosphere, $\Kdowntoa$, is related to the total solar irradiance, $S_0$ \parencite[p. 175]{ambaum}
 \begin{align}
 \Kdowntoa &= S_0 \left( \langle r_E \rangle / r_E(t) \right)^2 \cos \theta
 \intertext{where $\langle r_E \rangle$ is the average distance between the Earth and the Sun and $r_E(t)$ is the distance at a given time.  This orbital eccentricity is neglected since it is small, so the equation simplifies to}
 \Kdowntoa &= S_0 \cos \theta
 \intertext{where $\theta$ is the solar zenith angle which is given by \cite[p. 317]{jacobson}}
-\cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h
+\cos \theta &= \sin \varphi \sin \delta + \cos \varphi \cos \delta \cos h \label{eq:solar-zenith}
 \end{align}
 where $\varphi$ is the latitude, $h$ is the hour angle and $\delta$ is the declination of the Sun.  Given we are concerned with radiation in London, we can assume a longitude of \ang{0}, so the hour angle is approximately \parencite[p. 319]{jacobson}
 \begin{align}
 h = \left( t(\mathrm{seconds}) \cdot \ang{360} / 86400 \right) - \ang{180}
 \end{align}
-The declination of the Sun $\delta$ is approximated by
-\begin{align}
-\delta &= \ang{-23.44} \cdot \cos \left[ \frac{\ang{360}}{365} \cdot (N+10) \right] % TODO: citation
-\end{align}
-where $N$ is the day of the year with $N=0$ being January 1.  This model results in insolation with annual and diurnal periods as seen in Figure~\ref{fig:toa-model}.
+where $t(\mathrm{seconds})$ is the number of seconds past midnight UTC.
 
-\begin{figure}
-\centering
-\begin{subfigure}{0.45\textwidth}
-\input{toa-model-annual}
-\caption{Annual variation of insolation in 2010.  Midday insolation peaks in the summer when London is closest to the Sun.}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.45\textwidth}
-\input{toa-model-daily}
-\caption{Insolation on January 1 2010.  Times of day in UTC with sunrise and sunset occuring around 08:00 and 16:00 respectively.}
-\end{subfigure}
-\caption{Modelled insolation at top of the atmosphere above London (\SI{51}{\degree N}) showing annual and diurnal periodicity.}
-\label{fig:toa-model}
-\end{figure}
+The declination of the Sun $\delta$ is approximated by \parencite{jacobson}
+\begin{align}
+\delta &= \sin^{-1} \left( \sin \varepsilon_\mathrm{ob} \sin \lambda_\mathrm{ec} \right) \\
+\intertext{where $\varepsilon_\mathrm{ob}$ is the obliquity of the ecliptic and $\lambda_\mathrm{ec}$ is the ecliptic longitude of the Sun.  These are approximated by \parencite{jacobson}}
+\varepsilon_\mathrm{ob} &= \ang{23.439} - \ang{0.0000004} N_\mathrm{JD} \\
+\lambda_\mathrm{ec} &= \ang{280.460} + \ang{0.9856474} N_\mathrm{JD} + \ang{1.915} \sin g_\mathrm{M} + \ang{0.020} \sin 2g_\mathrm{M}
+\intertext{where $g_\mathrm{M}$ is the mean anomaly of the sun which is \parencite{jacobson}}
+g_\mathrm{M} &= \ang{357.528} + \ang{0.9856003} N_\mathrm{JD}
+\intertext{where}
+N_\mathrm{JD} &= 364.5 + (Y - 2001) \times 365 + D_\mathrm{L} + D_\mathrm{J} \\
+D_\mathrm{L} &= \left\{ 
+  \begin{array}{l l}
+    \mathrm{INT}(Y - 2001)/4 & \quad Y \geq 2001 \\
+    \mathrm{INT}(Y - 2000)/4 - 1 & \quad Y < 2001
+  \end{array} \right.
+\end{align}
+where $Y$ is the year and $D_\mathrm{J}$ is the Julian day of the year with $D_\mathrm{J}=1$ being January 1.  This model results in insolation with annual and diurnal periods as seen in Figure~\ref{fig:toa-model}.
+
 
 \subsection{Shortwave insolation}
 To model the insolation at the surface we estimate the optical depth of the atmosphere at a given time, $\tau(t)$.  This is calculated by comparing insolation at the surface, $\Kdownsfc$, and at the top of the atmosphere, $\Kdowntoa$ using the Beer-Lambert law \parencite{stephens}
@@ -105,7 +122,7 @@ e_s(\si{\hecto\pascal}) &= 6.112 \exp \left( \frac{17.67 T(\si{\celsius})}{T(\si
 \varepsilon_\mathrm{ATM} &= \varepsilon_\mathrm{clear} + \left(1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \label{eq:emissive-atm} \\
 \varepsilon_\mathrm{clear} &= 1 - \left( 1 + w \right) \exp \left( - \sqrt{1.2 + 3w} \right) \label{eq:clear-sky-emissivity}
 \intertext{Substituting into Equation~\ref{eq:stefan-boltzmann}, the parameterisation of $\Ldownsfc$ becomes \parencite{loridan}}
-\Ldownsfc &= \left[ \varepsilon_\mathrm{clear} + \left( 1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \right] \sigma T_\mathrm{ATM}^4
+\Ldownsfc &= \left[ \varepsilon_\mathrm{clear} + \left( 1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \right] \sigma T_\mathrm{ATM}^4 \label{eq:loridan-ldown}
 \end{align}
 To gain physical intuition, the absorptivity of the atmosphere increases with cloud cover and, by Kirchhoff's law \parencite[p. 166]{ambaum}, so does the emissivity $\varepsilon_\mathrm{ATM}$ (equation~\ref{eq:emissive-atm}).  In clear skies, the absorptivity increases with water vapour content since water vapour is a moderate absorber of longwave radiation.  Figure~\ref{fig:emissivity-response} shows the relation between emissivity, relative humidity and cloud cover fraction.
 
@@ -137,7 +154,7 @@ At times when cloud coverage observations are unavailable this affects modelled 
 \begin{figure}
 \centering
 \input{cloud-tau-fit}
-\caption{Relation between cloud cover and observed optical depth.  For the KSS dataset shown, 3085 records exist for which both cloud cover and optical depth are present.}
+\caption{Relation between cloud cover and observed optical depth.  For the KSS dataset shown, 3085 records exist for which both cloud cover and optical depth are present.  In the majority of readings no cloud cover or full cloud cover was observed.  The spread of optical depths is significantly larger at times of full cloud cover.}
 \label{fig:cloud-tau-fit}
 \end{figure}
 
@@ -145,49 +162,51 @@ In Figure~\ref{fig:cloud-tau-fit} we find a weak relationship between observed c
 
 After data cleansing, the average optical depth was found to be $\langle \tau \rangle = 0.45$.  The value is only used twice since, in the KSS dataset, there are only two records without cloud coverage data.
 
-Coefficients for precipitable water content $w$ and clear sky emissivity $\varepsilon_\mathrm{clear}$ were taken directly from \cite{loridan} (see equations~\ref{eq:precip-water-vapour} and \ref{eq:clear-sky-emissivity} respectively).  In \cite{loridan}, cloud cover is approximated from relative humidity and air temperature values.  However, since the CL31 dataset has precomputed cloud coverage values, we use these in model calculations.
+Coefficients for precipitable water content $w$ and clear sky emissivity $\varepsilon_\mathrm{clear}$ were taken directly from \cite{loridan} (see equations~\ref{eq:precip-water-vapour} and \ref{eq:clear-sky-emissivity} respectively).  In \cite{loridan}, cloud cover is approximated from relative humidity and air temperature values.  However, since the CL31 dataset contains precomputed cloud coverage values, we use these in model calculations.
 
 \section{Analysis}
 \label{sec:model-analysis}
 The model was evaluated by comparing its output with radiation observed at KSS.  Longwave radiation is better approximated but overestimates the observed value.  
 
-As seen in Figure~\ref{fig:shortwave-verification}, the model diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{112}{\watt\per\meter\squared}.  Since $R^2 = 0.2$ for the linear regression between cloud cover and optical depth, this error should be expected.
+As seen in Figure~\ref{fig:shortwave-verification}, the model diagnoses shortwave radiation with cloud cover observations alone with a root-mean-square error (RMSE) of \SI{111}{\watt\per\meter\squared}.  Since $R^2 = 0.2$ for the linear regression between cloud cover and optical depth, this error should be expected.
 
 When total cloud cover is observed for an extended duration of about one day, shortwave radiation is overestimated.  An example is shown in Figure~\ref{fig:extended-cloud}.  In section~\ref{sec:further-work} we suggest a way of improving this.
 
-\begin{table}[!b]
+\begin{table}
 \centering
 \begin{tabular}{ r @{\hspace{2em}} c c c c }
 \toprule
-Longwave model &	RMSE (\si{\watt\per\square\meter}) &	$\langle \Ldownsfc^\mathrm{model} \rangle - \langle \Ldownsfc^\mathrm{obs} \rangle$ (\si{\watt\per\square\meter}) \\ \midrule
+Longwave model &	RMSE (\si{\watt\per\square\meter}) &	$\langle \Ldownsfc^\mathrm{model} - \Ldownsfc^\mathrm{obs} \rangle$ (\si{\watt\per\square\meter}) \\ \midrule
 Temperature-only &	59 &	 				\num[retain-explicit-plus]{+47} \\
 Loridan &		47 &					\num{-32} \\ \bottomrule
 \end{tabular}
-\caption{Summary of longwave model errors.  $\langle \Ldownsfc^\mathrm{model} \rangle$ is the mean model value, $\langle \Ldownsfc^\mathrm{obs} \rangle$ the mean observed value.  The Loridan model has lower RMSE and has a mean is closer to the observed mean.}
+\caption{Summary of longwave model errors.  $\langle \Ldownsfc^\mathrm{model} - \Ldownsfc^\mathrm{obs} \rangle$ the mean difference between all model and observed values.  The Loridan model has lower RMSE and has a mean is closer to the observed mean.}
 \label{tab:longwave-error}
 \end{table}
 
 Longwave radiation is systematically overestimated by the simple temperature-only model.  This is clearly seen in Figure~\ref{fig:longwave-verification}.  The simple longwave model has a RMSE of \SI{59}{\watt\per\meter\squared}.  The Loridan longwave model is more accurate having a RMSE of \SI{47}{\watt\per\meter\squared}.  The two longwave model errors are summarized in Table~\ref{tab:longwave-error}.
 
+When $F_\mathrm{cloud} = 1$, both models give the same overestimated result.  Recall that, in the Loridan model, $\Ldownsfc = \left[ \varepsilon_\mathrm{clear} + \left( 1 - \varepsilon_\mathrm{clear} \right) F_\mathrm{cloud} \right] \sigma T_\mathrm{ATM}^4$ (equation~\ref{eq:loridan-ldown}) which simplifies to $\Ldownsfc = \sigma T_\mathrm{ATM}^4$ in total cloud cover.  By comparing the average difference between all model and observation values we find that both models overestimate by \SI{12}{\watt\per\square\meter} when $F_\mathrm{cloud} = 1$.  We return to this issue in section~\ref{sec:further-work}.
+
 There are several possibilities for model error in longwave radiation.  First, both models assume an isothermal atmosphere and use air temperature at the surface to estimate $\Ldownsfc$.  They both assume that air radiates as a black body.  Second, aerosol concentration is not included in either model; possible aerosol effects are discussed in section~\ref{sec:further-work}.  Third, recalculating the coefficients for the Loridan model using on the KSS dataset may reduce model error (see equations~\ref{eq:precip-water-vapour} and \ref{eq:clear-sky-emissivity}).
 \begin {figure}
 \centering
 \input{shortwave-verification}
-\caption{Comparison of modelled and observed shortwave radiation from October 23 -- October 26, 2010}
+\caption{Comparison of modelled and observed shortwave radiation from October 23 -- October 25, 2010.  Cloud cover varied over October 23 affecting $\Kdownsfc$.  Cloud cover was minimal on October 24.  There were clear skies across London on October 25 so $\Kdownsfc \approx \varepsilon_\mathrm{clear} \Kdowntoa$.}
 \label{fig:shortwave-verification}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{extended-cloud}
-\caption{Modelled and observed shortwave radiation with extended cloud cover}
+\caption{Modelled and observed shortwave radiation with extended cloud cover from October 13 -- October 15, 2010.  The model overestimates $\Kdownsfc$ on all three days.}
 \label{fig:extended-cloud}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{longwave-verification}
-\caption{Modelled and observed longwave radiation from October 27 -- October 30, 2010.  It is seen that the Loridan model better captures variation in longwave radiation.}
+\caption{Modelled and observed longwave radiation from October 27 -- October 29, 2010.  The temperature-only model overestimates $\Ldownsfc$ by \SI{10}{\watt\per\meter\squared} to \SI{100}{\watt\per\meter\squared}.  It is seen that the Loridan model better captures variation in longwave radiation.}
 \label{fig:longwave-verification}
 \end{figure}
 
@@ -197,13 +216,14 @@ Our analysis has neglected observation error and uncertainty in cloud optical de
 
 The shortwave model presented is a crude one.  A selection of superior cloud cover shortwave models are described in \cite{ingram}.  The shortwave model could also be improved by including rayleigh scattering, water vapour and aerosol extinction effects.
 
-Additionally, it may be worthwhile exploring the rainfall measurements present in the KSS dataset since precipitation is known to reduce aerosol concentrations due to washout. TODO citation. 
+In our analysis we found that the Loridan model overestimates $\Ldownsfc$ during total cloud cover.  It should be possible to rescale equation~\ref{eq:loridan-ldown} so that $\Ldownsfc<\sigma T_\mathrm{ATM}^4$ for any amount of cloud.
+
+Additionally, it may be worthwhile exploring the rainfall measurements present in the KSS dataset since precipitation is known to reduce aerosol concentrations due to washout \parencite{loosmore}.
 
 \printbibliography
 
 \appendix
 \chapter{Model source code}
-\vspace{-2em}
 Source code is available online at \url{https://github.com/hertzsprung/urban-radiation}.
 
 \section{\texttt{radiation.py}}
