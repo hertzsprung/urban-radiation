@@ -11,6 +11,10 @@
 \addbibresource{radiation.bib}
 
 \newcommand\eqnumbered{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand\Kdown{K\!\!\downarrow}
+\newcommand\Kup{K\!\!\uparrow}
+\newcommand\Ldown{L\!\!\downarrow}
+\newcommand\Lup{L\!\!\uparrow}
 \newcommand\Kdownsfc{{K\!\!\downarrow}_\mathrm{SFC}}
 \newcommand\Kdowntoa{{K\!\!\downarrow}_\mathrm{TOA}}
 \newcommand\Ldownsfc{{L\!\!\downarrow}_\mathrm{SFC}}
@@ -25,6 +29,21 @@ TODO
 
 A model is developed to predict downwelling longwave and shortwave radiation at the surface using observed cloud cover, air temperature and relative humidity.  Model results have a root-mean-squared error of \SI{112}{\watt\per\meter\squared} for shortwave and \SI{47}{\watt\per\meter\squared} for longwave.
 \end{abstract}
+
+\chapter{Background}
+\section{The global energy budget}
+The global radiation budget between the surface, atmosphere and space is shown in Figure~\ref{fig:energy-budget}.  The net radiation balance ($Q^\ast$) represents these energy exchanges within a vertical profile of the atmosphere and provides energy for atmospheric motion, heat transport and sensible fluxes \parencite{offerle}.
+\begin{align}
+Q^\ast = \left( \Kdown - \Kup \right) + \left( \Ldown - \Lup \right)
+\end{align}
+
+$Q^\ast$ is comprised of incoming ($\downarrow$) and outgoing ($\uparrow$) shortwave ($K$) and longwave ($L$) radiation. $\Kdown$ and downwelling $\Ldown$ are the fluxes examined here, as the amount received at the surface depends on atmospheric conditions such as cloud cover and aerosols. $Q^\ast$ varies diurnally as $\Kdown$ is dominant during the day from solar radiation and $\Ldown$ has a stronger influence at night, but overall there is a net radiation balance of longwave and shortwave bands \parencite{oke}.
+
+\begin{figure}
+\centering
+\caption{The global mean radiation balance of the Earth. Arrows show the global average energy balance fluxes with their uncertainty ranges (\si{\watt\per\meter\squared}) for shortwave radiation (yellow) and longwave radiation (orange) (Source: \cite{wild})}
+\label{fig:energy-budget}
+\end{figure}
 
 \chapter{Model}
 The radiation model was constructed around observation data collected from (TODO: MET mast instrument name) from January 2010 to December 2012, and Vaisala CL31 cloud cover data from October to December 2010.  Both instruments are installed at KSS. TODO: footnote explaining where that is
