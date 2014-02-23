@@ -11,6 +11,7 @@ To compile the report you will need:
 - A LaTeX installation including pdflatex, biblatex with biber, siunitx
 - Gnuplot
 - Python 3
+- pygments (for minted syntax highlighting)
 
 Optionally, you will need
 - R with [Metrics](https://github.com/benhamner/Metrics/tree/master/R) library (if you want to compute statistics)
