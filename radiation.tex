@@ -329,7 +329,36 @@ Cloud cover plots for $\Ldown$ show two distinct regions for clear sky and full 
 \subsection{Shortwave radiation}
 \begin{figure}
 \centering
-\caption{TODO}
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{008_SW_RH.png}
+\caption{$\mathrm{RH}$ and $\Kdown$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{009_SW_Tair.png}
+\caption{$T_\mathrm{air}$ and $\Kdown$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{010_SW_Tair_cloud.png}
+\caption{$T_\mathrm{air}$ and $\Kdown$ showing cloudy conditions (green) and clear (red)}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{011_SWin_CC.png}
+\caption{Cloud cover and $\Kdown$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{012_SWin_tau.png}
+\caption{Optical depth and $\Kdown$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{013_SWin_Tr.png}
+\caption{Transmission and $\Kdown$}
+\end{subfigure}
+\caption{$\Kdown$ scatterplots}
 \label{fig:data-3}
 \end{figure}
 
@@ -344,15 +373,54 @@ $\Kdown$ and cloud cover shows low $\Kdown$ values for high cloud cover and a fu
 \subsection{Top of atmosphere radiation}
 \begin{figure}
 \centering
-\caption{TODO}
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{016_TOA_RH.png}
+\caption{$\mathrm{RH}$ and $\Kdowntoa$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{017_TOA_Tair.png}
+\caption{$T_\mathrm{air}$ and $\Kdowntoa$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{015_TOA_CC.png}
+\caption{Cloud cover and $\Kdowntoa$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{018_TOA_tau.png}
+\caption{Optical depth and $\Kdowntoa$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{019_TOA_Tr.png}
+\caption{Transmission and $\Kdowntoa$}
+\end{subfigure}
+\caption{$\Kdowntoa$ scatterplots}
 \label{fig:data-4}
 \end{figure}
+
 Top of atmosphere radiation ($\Kdowntoa$) (Figure~\ref{fig:data-4}) plots of $\mathrm{RH}$ and $\Kdowntoa$, $T_\mathrm{air}$ and $\Kdowntoa$ have a corrugated pattern which may be a due to an error in TOA calculations, or it could possibly be due to dips in aerosol concentration at weekends. There are about 25 corrugations (difficult to count the more faint ones) and a smoothed annual TOA radiation would be a sinusoid, hence  covering the same path twice in a year. There is a decrease in RH and an increase in air temperature which is broadly as expected.
 
 \subsection{Optical depth and transmission}
 \begin{figure}
 \centering
-\caption{TODO}
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{023_tau_RH.png}
+\caption{RH and optical depth}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{024_tau_Tair.png}
+\caption{$T_\mathrm{air}$ and optical depth}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{025_tau_CC.png}
+\caption{Cloud cover and optical depth}
+\end{subfigure}
+\caption{Optical depth scatterplots}
 \label{fig:data-5}
 \end{figure}
 
@@ -360,7 +428,21 @@ Optical depth ($\tau$) (Figure~\ref{fig:data-5}) seems to have a background leve
 
 \begin{figure}
 \centering
-\caption{TODO}
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{021_Tr_RH.png}
+\caption{RH and atmospheric transmission}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{022_Tr_Tair.png}
+\caption{$T_\mathrm{air}$ and atmospheric transmission}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{020_Tr_CC.png}
+\caption{Cloud cover and atmospheric transmission}
+\end{subfigure}
+\caption{Atmospheric transmission scatterplots}
 \label{fig:data-6}
 \end{figure}
 
@@ -369,11 +451,187 @@ Transmission (Figure~\ref{fig:data-6}) plotted with RH has darker regions in the
 \section{Ceilometer Backscatter qualitative analysis}
 \begin{figure}
 \centering
-\caption{TODO}
-\label{fig:data-6}
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS0_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS0_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS0_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS0_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 0 and 1 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-8}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS1_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS1_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS1_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS1_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 1 and 2 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-9}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS2_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS2_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS2_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS2_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 2 and 3 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-10}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS3_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS3_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS3_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS3_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 3 and 4 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-11}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS4_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS4_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS4_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS4_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 4 and 5 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-12}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS5_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS5_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS5_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS5_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 5 and 6 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-13}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS6_CC.png}
+\caption{Cloud cover and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS6_Tair.png}
+\caption{Air temperature and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS6_tau.png}
+\caption{Optical depth and ceilometer backscatter averaged over 1 km height}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{BS6_Tr.png}
+\caption{Atmospheric transmission and ceilometer backscatter averaged over 1 km height, all  between 6 and 7 km heights}
+\end{subfigure}
+\caption{Ceilometer backscatter scatterplots}
+\label{fig:data-14}
 \end{figure}
 
 In Figures~\ref{fig:data-8} to \ref{fig:data-14}, plots were generated for each \SI{1}{\kilo\meter} vertical, of average backscatter and RH, air temperature, cloud cover, transmission and optical depth. These show relationships between ceilometer  backscatter and optical depth as well as cloud cover in the lower levels. The relationship between backscatter and atmospheric transmission is less obvious but this will be at least partly due to the differences in the optical path relevant to each. At higher levels (above \SI{5}{\kilo\meter}) the scatter plots look more randomly spread indicating mostly noise in the signal. The attenuation at this range is large and the signal to noise ratio lower as a result.
+
+\section{Conclusions}
+Incoming short-wave radiation is seen to decay exponentially with increasing optical depth and to be proportional to atmospheric transmission. Higher air temperatures are associatied with higher incoming short-wave but the reverse is not always true, especially under cloudy skies. Short-wave and relative humidity show some correlation with highest humidities occurring at when short-wave recievd is low.  Modelling short-wave based on the data considered here would require further work.
+
+Incoming long-wave radiation is proportional to air temperature with two modes visible in clear and cloudy conditions, lower in clear and higher under cloud.  Optical depth increases with high incoming long-wave, likely due to cloud. 
+
+Optical depth is seen in several comparisons with other quantities to have a line of constant value of about 0.2, decreasing after rain and increasing in cloudy or humid conditions. The ceilometer backscatter at low levels suggests that the constant background optical depth is likely to be due to aerosols in the boundary layer. The relative humidity effects on backscatter and optical depth are likely to be the result of hygroscopic aerosol growth \parencite{gibert,randriamiarisoa}.
 
 \section{Further work}
 Due to the time constraints on this work there is much more which could be done. The impact of atmospheric conditions on $\Kdown$ needs more work. The relationships in the data are more complex than for $\Ldown$ which was almost entirely dependent on air temperature and the presence or absence of cloud. $\Kdown$ was seen to be related to air temperature and cloud cover but further complicated by sun earth geometry, optical tepth and transmission along the path of the direct solar beam, and the amount of aerosol present. The aerosols present would also merit further study as their optical properties and effect on $\Kdown$ depend on aerosol type and size, and aerosol size is dependent on RH for certain species.
@@ -572,6 +830,16 @@ Additionally, it may be worthwhile exploring the rainfall measurements present i
 \printbibliography
 
 \appendix
+\chapter{Data analysis source code}
+\section{\texttt{merge.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{johns_code/merge.py}
+
+\section{\texttt{merge2.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{johns_code/merge2.py}
+
+\section{\texttt{openMET.py}}
+\inputminted[fontsize=\footnotesize, tabsize=4]{python}{johns_code/openMET.py}
+
 \chapter{Model source code}
 Source code is available online at \url{https://github.com/hertzsprung/urban-radiation}.
 

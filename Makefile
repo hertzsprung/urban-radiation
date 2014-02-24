@@ -36,6 +36,7 @@ radiation.pdf: radiation.tex radiation.bib $(GRAPHS)
 	$(PDFLATEX) $<
 	$(BIBER) radiation
 	$(PDFLATEX) $<
+	$(PDFLATEX) $<
 
 $(GRAPHS): radiation.plt one_year_toa.dat model_obs.dat
 	$(GNUPLOT) -e "load '$<'"
