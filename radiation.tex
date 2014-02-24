@@ -6,9 +6,10 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{subcaption}
-\usepackage[backend=biber, style=authoryear, firstinits=true, maxcitenames=2]{biblatex}
+\usepackage[backend=biber, style=authoryear, firstinits=true, maxcitenames=2, dashed=false]{biblatex}
 \usepackage{minted}
 \usepackage{booktabs}
+\usepackage{pdflscape}
 
 \renewbibmacro{in:}{}
 
@@ -31,7 +32,7 @@
 \maketitle
 
 \begin{abstract}
-TODO
+Incoming SW and lw radiation are altered by the atmospheric conditions of cities. This report assesses the magnitude of these impacts in London, using data from Kings CollegeLondon. Cities are a good analogue for studying global anthropogenic climate change as they show how human activities modify climate and it is where the majority of the world's population live \parencite{cleugh}. It is important to understand how cities contribute to global warming in order to manage and mitigate the impact of climate change. The report initially considers the science behind radiative processes, and explains how incoming SW and lw radiation are affected by urban effects.
 
 A model is developed to predict downwelling longwave and shortwave radiation at the surface using observed cloud cover, air temperature and relative humidity.  Model results have a root-mean-squared error of \SI{111}{\watt\per\meter\squared} for shortwave and \SI{47}{\watt\per\meter\squared} for longwave.
 \end{abstract}
@@ -88,13 +89,14 @@ The radiation that is transmitted through a layer (transmittance) also depends o
 It is important to study the impact of the urban atmosphere on radiation receipt, as cities are a good analogue for global anthropogenic climate change \parencite{cleugh}.  Increasing both cloud and aerosol optical depth leads to a reduction in incoming shortwave radiation at the surface as these particles attenuate the incoming beam, and increase longwave radiation \parencite{ipcc}.
 
 \subsection{Cloud cover}
-Shortwave radiation is separated into direct and diffuse beam, with attenuation mostly caused by cloud cover. Clouds also enhance incoming longwave radiation, particularly at nighttime \parencite{kotthaus}.  Clouds reflect and absorb incoming shortwave radiation, as well as attenuation, the amount depending on the cloud height, amount and thickness \parencite{iqbal}.  The thickness relates to the optical depth of a cloud. Using Equation~\ref{eq:radiation-budget}, it can be seen that an increase in reflectivity and absorptivity from the clouds results in decreased transmissivity to the surface. Previous observations suggest that on average of \SI{69}{\watt\per\meter\squared} of incoming solar radiation is reflected by cloud and \SI{20}{\watt\per\meter\squared} absorbed \parencite{salby}.  In addition to cloud amount, the solar zenith angle also influences the amount of attenuation from cloud cover, as it increases the length of the beam path through the cloud \parencite{oke}.  Cloud height impacts the amount of transmission, as high cloud reflects less than low cloud \parencite{liou}.
+Shortwave radiation is separated into direct and diffuse beam, with attenuation mostly caused by cloud cover. Clouds also enhance incoming longwave radiation, particularly at nighttime \parencite{kotthaus1}.  Clouds reflect and absorb incoming shortwave radiation, as well as attenuation, the amount depending on the cloud height, amount and thickness \parencite{iqbal}.  The thickness relates to the optical depth of a cloud. Using Equation~\ref{eq:radiation-budget}, it can be seen that an increase in reflectivity and absorptivity from the clouds results in decreased transmissivity to the surface. Previous observations suggest that on average of \SI{69}{\watt\per\meter\squared} of incoming solar radiation is reflected by cloud and \SI{20}{\watt\per\meter\squared} absorbed \parencite{salby}.  In addition to cloud amount, the solar zenith angle also influences the amount of attenuation from cloud cover, as it increases the length of the beam path through the cloud \parencite{oke}.  Cloud height impacts the amount of transmission, as high cloud reflects less than low cloud \parencite{liou}.
 
 \subsection{Aerosols}
 Aerosols also scatter and attenuate incoming shortwave radiation, with the effect depending on the type and density of aerosols. Aerosols are a chemical mixture of suspended solid and liquid particles, ranging in size from less than \SI{0.1}{\micro\meter} to large coarse particles; fine particles from \SIrange{0.1}{3}{\micro\meter} are typical for large scale air pollution \parencite{chameides}.  Aerosols can be natural, but around anthropogenic sources such as the burning of fossil fuel, anthropogenic aerosols are the significant source. 
 
 Solar radiative flux is affected by aerosols directly, through the particles scattering and absorbing the incoming beam, and indirectly as they enhance the formation of cloud drops by acting as cloud condensation nuclei \parencite{chameides}.  Transmittance is altered as aerosols increase diffuse radiation and the attenuation of UV radiation \parencite{cleugh}.  The impact of the indirect effect is more difficult to quantify and so is less well understood. Aerosol optical depth increases with pollution, so that scattering and absorption from aerosols can dominate over Rayleigh scattering, for example the aerosol optical depth is 0.2-0.5 over the eastern United States \parencite{chameides}.  In urban areas there is a higher density of emissions, therefore more shortwave is made extinct before reaching the surface, resulting in a reduction of surface shortwave radiation in urban areas compared to rural areas.  Table~\ref{tab:aerosol-sw} summarises the results of previous research that quantifies this reduction in shortwave radiation due to the urban effect. Global climate models estimate the reduction in surface shortwave radiation from aerosols to be from \SIrange{1.3}{3.3}{\watt\per\meter\squared}.  At the top of the atmosphere the net radiation change is estimated to be up to \SI{-9}{\watt\per\meter\squared} over land \parencite{ipcc}.
 
+\begin{landscape}
 \begin{table}
 \centering
 \begin{tabular}{ c c c }
@@ -111,6 +113,7 @@ Source &	Location &	Reduction of incoming shortwave \\ \midrule
 \caption{Observed decrease in incoming shortwave radiation caused by aerosol effects from urban areas (ranked by decreasing reduction of incoming shortwave)}
 \label{tab:aerosol-sw}
 \end{table}
+\end{landscape}
 
 Overall, there should be little change in net radiation as there is a small increase in downward longwave radiation from aerosols, whilst incoming shortwave is reduced \parencite{ipcc}.  Longwave radiation is enhanced as urban canyons have a lower sky view factor, lessening longwave radiation loss \parencite{cleugh}.  The aerosol optical depth affects the proportion of shortwave that becomes extinct; where low aerosol conditions are reported, incoming radiation is reduced by 5\%, compared to up to 30\% for large cities such as Hong Kong \parencite{cleugh}.  It has been suggested that this decrease in surface radiation is more important in controlling the energy budget than the increase in surface temperature form greenhouse gas induced warming \parencite{liepert}.
 
@@ -124,17 +127,264 @@ A Vaisala CL31 ceilometer is used to measure cloud cover percentage and backscat
 The CNR4 net radiometer is used to measure the radiation fluxes of incoming and outgoing shortwave and longwave radiation. A pyranometer pair measures shortwave radiation from \SIrange{300}{2800}{\nano\meter} and a pyrgeometer pair measures longwave radiation within the spectral range from \SIrange{4500}{42000}{\nano\meter}, with an acuracy of $\pm10\%$ \parencite{kipp}.
 
 \section{Location}
-The instruments are placed on the roof of King's College London, with the measurement tower at \SI{49}{\meter} above street level \parencite{kotthaus}.  Measurement height is important within urban areas; \cite{kotthaus} show that flux processes are observed at different scales within urban areas due to differing measurement heights. At this height instruments are less affected by bias, for example from particularly heavy traffic routes, and the effect of urban canyons. The site is in central London (\ang{51.5}N, \ang{0.1}W) in the `central activities zone' \parencite{kotthaus} (Figure~\ref{fig:location}).  The surface of the building and surrounding area is primarily concrete and asphalt.
+The instruments are placed on the roof of King's College London, with the measurement tower at \SI{49}{\meter} above street level \parencite{kotthaus2}.  Measurement height is important within urban areas; \cite{kotthaus2} show that flux processes are observed at different scales within urban areas due to differing measurement heights. At this height instruments are less affected by bias, for example from particularly heavy traffic routes, and the effect of urban canyons. The site is in central London (\ang{51.5}N, \ang{0.1}W) in the `central activities zone' \parencite{kotthaus2} (Figure~\ref{fig:location}).  The surface of the building and surrounding area is primarily concrete and asphalt.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{map.png}
-\caption{Satellite image showing location of measurement tower in London (A) (Source: \cite{google-maps})}
+\caption{Satellite image showing location of measurement tower in London (A) (Source: Google Maps)}
 \label{fig:location}
 \end{figure}
 
+\chapter{Longwave radiation}
+The Earth emits longer wave of radiation from the ground, due to temperature of the Earth ($\sim\SI{288}{\kelvin}$) is comparably smaller than the temperature of the Sun ($\sim\SI{6000}{\kelvin}$).  The temperature at the Earth's surface determines an amount of longwave radiation at that time, which can be in some measure affected by shortwave radiation being able to warm up the surface.  Unlike shortwave, the energy from longwave is absorbed by clouds and aerosols. Clouds will then reemit the energy back to the surface and to space while aerosols will scatter the rays over the atmosphere.  This incoming radiation at the surface will predominantly be discussed with different properties of weather conditions in an urban environment.  By using the data from KSS, investigating what are the driving motions of longwave radiation in the atmosphere can help determine how to model a city that has been changed by urbanisation.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{1.jpg}
+\caption{Longwave radiation plotted with top of atmosphere, short wave radiation, and cloud cover.}
+\label{fig:longwave-1}
+\end{figure}
+
+Figure~\ref{fig:longwave-1} shows a two-day plot of how radiation changes over time.  The change of incoming longwave is related to the changes in cloud cover.  In a cloud free environment, incoming longwave will be much lower since the outgoing longwave will be able to reach the top of the atmosphere without having to go through a cloud.  Incoming longwave does not reach zero because of lack of clouds, there are other particles in the atmosphere that do affect outgoing longwave as it goes up in the atmosphere such as dust, aerosols, and greenhouse gases.  But, clouds do play a role in the amount of incoming longwave that reaches the surface.  A small amount of outgoing longwave is absorbed and reflected and reemitted as incoming longwave, introducing a secondary dependence to cloud cover \parencite{kotthaus1}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{2.jpg}
+\caption{The effects of incoming longwave with different types of cloud cover.}
+\label{fig:longwave-2}
+\end{figure}
+
+Figure~\ref{fig:longwave-2} displays the ranges of incoming shortwave with different types of cloud cover from <10\%, 10--90\%, and  >90\%.  Over this time frame, 57\% of the time London had over 90\% cloud cover.  This should be considered when modeling cities because each one will have different qualities.  The location and climate of urban areas do make it difficult to be able to use one model for all large cities.  The amount of aerosols can make the biggest difference to a city that has almost no cloud cover and one that has frequent cloud cover or a city than is near the ocean compared to one inland. Clouds can trap aerosols in the atmosphere, which can directly impact storage heat and sensible heat fluxes \parencite{kotthaus1}.  Although this concept of an urban heat island is something to contemplate, it will not be discussed in this study.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{3.jpg}
+\caption{How incoming longwave changes over time with different types of cloud cover.}
+\label{fig:longwave-3}
+\end{figure}
+
+Figure~\ref{fig:longwave-3} has different types of cloud cover over three months, although the plots are somewhat scattered they are not entirely random.  The amount of incoming longwave is decreasing over time, due to the decrease in surface temperature of the Earth.  Both incoming and outgoing longwave are both dependent of temperature.
+
+\begin{align}
+\mathrm{LW_{out}} &= \sigma T_E^4 \\
+\mathrm{LW_{in}} &= \sigma T_A^4
+\end{align}
+where $T_E$ is the surface temperature of the Earth and $T_A$ is the temperature of the air.  The calculation of incoming longwave is not so simple to determine because of the multiple layers of cloud that could be present in the atmosphere, but for a cloud free atmosphere this can be applied for simplicity.  If this data were for a whole year, the amount of incoming radiation would most resemble a cosine wave with its peak in summer and lowest point in winter.  The lack of sunlight and heat determines the temperature of the surface and the amount of outgoing longwave.  This gives a simple outlook of how the range in radiation changes over the course of only a few months.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{5.jpg}
+\caption{The flux of incoming longwave radiation when it rains during the night.}
+\label{fig:longwave-5}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{6.jpg}
+\caption{The flux of incoming longwave radiation when it rains during the day.}
+\label{fig:longwave-6}
+\end{figure}
+
+Rainfall is something that affects incoming longwave; it is obvious that in order to have rain there needs to be clouds.  In Figure~\ref{fig:longwave-1}, the incoming longwave has a limit on the maximum amount of incoming longwave.  But, in Figures~\ref{fig:longwave-5} and \ref{fig:longwave-6} these amounts of incoming longwave end up reaching much higher amounts of longwave.  Clouds can move closer to the surface, creating a smaller distance between the surface and the base of the cloud.  Showers create downbursts that can create a higher amount of aerosol by forcing them toward the surface.  This may not account for all amounts of rainfall, but for larger amounts where these downbursts are going to be much stronger.  Figure~\ref{fig:longwave-4} shows how these larger amounts of rainfall (over \SI{0.5}{\milli\meter}) can increase the amount of incoming longwave.  The amount of rain is measured via a tipping bucket, so that not all rain is accounted for on the graph due to the lack of rain necessary for the level to tip (\SI{0.2}{\milli\meter}).  Since this is over a three-month period, air temperature can be the cause to large range of longwave radiation at lower amounts of rain as well.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{4.jpg}
+\caption{The effect of how rainfall changes incoming longwave radiation.}
+\label{fig:longwave-4}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{7.jpg}
+\caption{The first level (level-1) of cloud height plotted against incoming longwave.}
+\label{fig:longwave-7}
+\end{figure}
+
+Using the Ceilometer CL31 data that is operated at KSS station, with a window length of 15 minutes determines three layers of cloud per every 15-minute period.  Investigating the lowest heights or the base of a cloud can help determine what parameters of London should be considered in building a model.  Figure 7 plots the different level-1 cloud heights to down-welling longwave. About 82\% of these level-1 cloud heights are in the cumulus or status family that lies between 0--2000 metres.  These thick low level clouds can trap in aerosols between the base of the cloud and the surface creating more scattering of outgoing longwave radiation.  There is a decrease in cloud height with incoming longwave especially at measurements from \SIrange{350}{400}{\watt\per\meter\squared}.  This is due to the air temperature, cloud are going to be cooler at higher heights creating a lower value of incoming longwave because of the increase distance between the surface and the cloud.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{8.jpg}
+\caption{The mean backscatter data from 0--50 metres plotted against incoming longwave radiation.}
+\label{fig:longwave-8}
+\end{figure}
+
+The CL31 data finds the backscatter block averaged to 15 minute interval values for each layer of 50 meters.  Take notice that the CL31 instrument is not at ground level, but at approximately 50 meters above the surface so that the instrument is not obstructed by any buildings.  Figure~\ref{fig:longwave-8} shows the first 0--50 metres above the instrument, clearly there is larger values of backscatter after \SI{250}{\watt\per\meter\squared}.  Below \SI{250}{\watt\per\meter\squared}, there are very low values of backscattering unlike the rest of the graph.  Figure~\ref{fig:longwave-14} confirms that this is due to no cloud cover at those plots, which would be ideal since aerosols can move more freely in the atmosphere without clouds creating less scattering near the surface.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{14.jpg}
+\caption{Mean Backscatter at 0--50 metres with clear skies and no rain.}
+\label{fig:longwave-14}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{13.jpg}
+\caption{Mean Backscatter at 0--50 metres with rainy conditions.}
+\label{fig:longwave-13}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{12.jpg}
+\caption{Mean Backscatter at 0--50 metres with no rain and with >80\% cloud cover}
+\label{fig:longwave-12}
+\end{figure}
+
+Figures~\ref{fig:longwave-12} and \ref{fig:longwave-13} show mean backscatter with conditions that would have large amounts of cloudiness.  By comparing these graphs to the composite graph (Figure~\ref{fig:longwave-8}, the mean backscatter values are not as high as expected for rainy conditions.  Aerosols are unlike greenhouse gases; they can be washed out by rainfall in the lower parts of the atmosphere \parencite{rmets}.  Therefore, the reasoning to these very large values backscattering is because of aerosols and the large cloud cover.
+The next step in the study would be to look into what conditions caused large values of backscatter.  Calculating the values of aerosol concentrations to determine how many pollutants are in London, especially at times where there are high amounts of cloud coverage. Since backscattering is measured up to 7700 meters, plotting the backscattering to at least 2000 meters where the most particles would be located would be beneficial in evaluating aerosols.
+
+The impacts on incoming longwave radiation in this urban environment is the amount of aerosols and cloud cover; with more aerosols there more scattering of longwave radiation in the atmosphere.  This creates an increase of longwave coming back to the surface.  Now, this study was mostly done near the surface of London instead of above it at higher heights.  Based off this short amount of time, it would be hard to determine if London has caused warming at the surface because of the amount of aerosols.  But, a study was done in China about aerosols and the effects of longwave if the aerosols were trapped at the surface.  It was concluded that to cause warming at the surface of the Earth the aerosols concentration would have to be extremely high, almost sand storm like \parencite{zhou}.  At least at the surface, the chances of warming due to aerosols would be very slim.
+
+The main reasoning to why incoming longwave may be important in the impacts of urban environments is that with larger amounts of incoming longwave, the higher the amount of aerosols in the air.  This can pose as a health problem to the public, especially those who are in central London and breathe in this air on a day-to-day basis.  Although with the regulations set by the European Union, the air can only have a certain amount of concentration of aerosols in the air.  The recommended daily limit for the EU is set to \SI{0.05}{\milli\gram\per\meter\cubed} and \SI{0.04}{\milli\gram\per\meter\cubed} for $\mathrm{PM_{10}}$ and $\mathrm{PM_{2.5}}$.  This may be fine for the time being in London, but other cities that do not have any regulations may be having problems with the amount of aerosols in the city.  London is at least trying to diminish its carbon footprint on the world with such things as a congestion charge, it can be an example to those cities that do not limit their impact on the world.  Such a model for high population cities may be needed to determine future plans of how to bring the amount of aerosols in the atmosphere down.
+
+\chapter{Data analysis}
+\section{The data set}
+The data used for this work were collected from several different types of instrument. Downward longwave ($\Ldown$ and shortwave radiation ($\Kdown$), air temperature ($T_\mathrm{air}$), relative humidity ($\mathrm{RH}$), and rainfall ($\mathrm{Rain}$) were measured on the roof of Kings College London, alongside three ceilometers, which recorded vertical backscatter profiles at \SI{910}{\nano\meter} wavelength.  The details of all instruments used to collect the data may be seen in Table~\ref{tab:dataset}.  The Estimated Cloud cover ($\mathrm{CC}$) used is derived from ceilometer cloud height time series using an algorithm provided with the ceilometers \parencite{vaisala2}.  15 minute averaged values are used here unless otherwise stated.
+
+\begin{table}
+\begin{tabular}{ c c c c }
+\toprule
+Instrument &	Model &	Manufacturer &	Quantities \\ \midrule
+Weather station &	WXT510 &	Vaisala &	$T_\mathrm{air}, \mathrm{RH}$ \\
+Radiometer &	CNR1 &	Kipp \& Zonen & $\Kdown, \Ldown$ \\
+Rain gauge &	ARG100	& Campbell Scientific &	$\mathrm{Rain}$ \\
+Ceilometer &	CL31	& Vaisala	&	\shortstack{Backscatter,\\cloud height \& amount} \\ \bottomrule
+\end{tabular}
+\caption{Details of instruments used.}
+\label{tab:dataset}
+\end{table}
+
+$\Ldown$ and $\Kdown$, as measured are not exactly the same as their true values since the CNR4 sensors for both have an imperfect response \parencite{kipp2}, however, the bulk of the spectra for both $\Ldown$ and $\Kdown$ are well within the spectral ranges of the sensors.
+
+\section{Data processing}
+For processing the data several Python scripts were written TODO: see appendices.
+
+Due to the large amount of data involved and inter-dependencies between the various quantities to be compared, an attempt was made to separate the data into suitable subsets for further analysis. Initial scatter plots indicate some relationships exist which are worthy of further consideration.  This stratification of the data has revealed some relationships.
+
+Radiation ($\Kdowntoa$, $\Ldown$, $\Kdown$), transmission and optical depth were plotted with air temperature, cloud cover fraction, RH. The radiation quantities were also plotted against optical depth ($\tau$) and transmittion ($\mathrm{TR}$).
+
+Ceilometer backscatter data were averaged over seven \SI{1}{\kilo\meter} vertical intervals to assess whether any connection could be seen between backscatter (and thus indirectly aerosol content) over the seven height intervals, and the other observed and calculated variables.
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{000a_transmission_errors_1.png}
+\caption{Transmission time series (divide by zero masked)}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{000b_transmission_errors_2.png}
+\caption{Daily transmission for all days (divide by zero masked)}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{000c_transmission_errors_3.png}
+\caption{Day of year versus time of day where a zero error occured}
+\end{subfigure}
+\caption{Transmission errors}
+\label{fig:data-1}
+\end{figure}
+
+Transmission data were masked to remove spurious values (>1) where $\Kdowntoa$ was zero although observed SW in was not. This may be due to an error in the calculation of $\Kdowntoa$ as supplied in the data for the location which was based on $\Kdowntoa$ was calculated as $\Kdowntoa = \cos(\text{solar zenith angle}) \times \text{solar constant}$ ($=\SI{1367}{\watt\per\meter\squared}$), with solar zenith angle found using the \texttt{solaR} R package \parencite{solaR}.  Plotting transmission with divide by zero errors removed (i.e. where $\Kdowntoa = 0$ but $\Kdown > 0$), it can be seen in Figures~\ref{fig:data-1} and \ref{fig:data-2} that this occurs regularly though out the year, in the morning and evening but not in the middle of the day. A plot of day of year versus time of day where divide by zero errors occur seems to indicate a discrepancy between sunset/sunrise as calculated using \texttt{solaR} for this location and those indicated by the measured values of $\Kdown$, or possibly that the sensors are picking up light from other sources during these times.
+
+\section{Qualitative analysis of plots}
+\subsection{Longwave radiation}
+\begin{figure}
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{001_LW_RH.png}
+\caption{$\mathrm{RH}$ and $\Ldown$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{002_LW_Tair.png}
+\caption{$T_\mathrm{air}$ and $\Ldown$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{003_LW_Tair_cloud.png}
+\caption{$T_\mathrm{air}$ and $\Ldown$ showing cloudy conditions (green) and clear (red)}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{004_LWin_CC.png}
+\caption{Cloud cover and $\Ldown$}
+\end{subfigure}
+\\
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{005_LWin_tau.png}
+\caption{Optical depth and $\Ldown$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{006_LWin_Tr.png}
+\caption{Transmission and $\Ldown$}
+\end{subfigure}
+\caption{$\Ldown$ scatterplots}
+\label{fig:data-2}
+\end{figure}
+
+Longwave radiation ($\Ldown$) (Figure~\ref{fig:data-2} is generally higher at low humidity but the top right quadrant is heavily populated with points indicating two separate strata.  This may be due to an inverse relationship between air temperature and $\mathrm{RH}$ while $\Ldown$ would be larger at high temperatures, combined with the increased likelihood of cloud at high $\mathrm{RH}$.
+
+The plot of $\Ldown$ and air temperature shows two very distinct linear relationships. By plotting the data points with $\text{cloud amount} \geq 0.4$ as cloudy skies in green, and $\text{cloud amount} < 0.4$ as clear in red, the distinct strata in the scatterplot of $\Ldown$ and air temperature separate into two distinct clusters of points, one red and one green, which indicates cloud cover is highly likely to be the cause of the difference.
+
+$\Ldown$ and transmission shows two mean levels of transmission with the bulk of the lower one in the bottom right quadrant, again probably due to cloud cover. Low cloud would result in high $\Ldown$ and low transmission. The second higher level is likely to be the transmission in clear skies.
+
+$\Ldown$ and optical depth is flat at $\tau \sim 0.2$ until $\Ldown$ approaches \SI{300}{\watt\per\meter\squared} probably due to cloud cover versus clear skies. The number of points below what looks like a constant background aerosol optical depth increases at high values of $\Ldown$ which may be due to rain in cloudy conditions, washing out the aerosols temporarily.
+
+Cloud cover plots for $\Ldown$ show two distinct regions for clear sky and full cloud cover but the data for cloud cover used was too sparse to see very much in between.
+
+\subsection{Shortwave radiation}
+\begin{figure}
+\centering
+\caption{TODO}
+\label{fig:data-3}
+\end{figure}
+
+Shortwave radiation ($\Kdown$) (Figure~\ref{fig:data-3}) scatterplots indicate an inverse proportionality between $\Kdown$ and $\mathrm{RH}$, and weak direct proportionality between $\Kdown$ and air temperature. 
+
+The scatterplot of $\Kdown$ and optical depth has all points under an exponential decay curve with a very dense region in the bottom left hand corner, which is most likely under cloudy skies. $\Kdown$ and transmission is similarly distinct with everything above a diagonal line through the origin. A second line and an arc are also visible. It is worth noting that the CNR4 has a hemisphere field of view for both upwards pointing sensors where as the ceilometers backscatter profiles only give information about a narrow vertical beam. Ceilometer beam divergence is an almost negligible constant value and is included when instrument geometry is accounted for in calculating calibration constants \parencite{vaisala2}.  Cloud cover as estimated using a ceilometer is not prone to the same overestimation at low angles that occurs with human observations of cloud cover or cloud cover derived from instruments such as the Campbell Stokes sunshine recorder \parencite{monteith}. This study compares $\Ldown$ and $\Kdown$ measured using the CNR4, as  well as transmission and optical depth derived from these measurements, with ceilometer derived cloud cover. This may account for the much stronger correlation seen between cloud cover $\Ldown$, than between cloud cover and $\Kdown$.
+
+Plotting in different colours as was done for $\Ldown$, air temperature and $\Kdown$ can be seen to exhibit a different relationship in cloudy and clear conditions but much less so than for $\Ldown$.
+
+$\Kdown$ and cloud cover shows low $\Kdown$ values for high cloud cover and a full range of $\Kdown$ values for clear skies which is as expected given low $\Kdown$ at low angles in mornig, evening and through the winter.
+
+\subsection{Top of atmosphere radiation}
+\begin{figure}
+\centering
+\caption{TODO}
+\label{fig:data-4}
+\end{figure}
+Top of atmosphere radiation ($\Kdowntoa$) (Figure~\ref{fig:data-4}) plots of $\mathrm{RH}$ and $\Kdowntoa$, $T_\mathrm{air}$ and $\Kdowntoa$ have a corrugated pattern which may be a due to an error in TOA calculations, or it could possibly be due to dips in aerosol concentration at weekends. There are about 25 corrugations (difficult to count the more faint ones) and a smoothed annual TOA radiation would be a sinusoid, hence  covering the same path twice in a year. There is a decrease in RH and an increase in air temperature which is broadly as expected.
+
+\subsection{Optical depth and transmission}
+\begin{figure}
+\centering
+\caption{TODO}
+\label{fig:data-5}
+\end{figure}
+
+Optical depth ($\tau$) (Figure~\ref{fig:data-5}) seems to have a background level of $\sim 0.2$ which is largely independent of air temperature and RH. Some increase is seen at RH values larger than 60\%. A decrease is seen after rain.
+
+\begin{figure}
+\centering
+\caption{TODO}
+\label{fig:data-6}
+\end{figure}
+
+Transmission (Figure~\ref{fig:data-6}) plotted with RH has darker regions in the top left and bottom right quadrants possibly due to clear versus cloudy skies.
+
+\section{Ceilometer Backscatter qualitative analysis}
+\begin{figure}
+\centering
+\caption{TODO}
+\label{fig:data-6}
+\end{figure}
+
+In Figures~\ref{fig:data-8} to \ref{fig:data-14}, plots were generated for each \SI{1}{\kilo\meter} vertical, of average backscatter and RH, air temperature, cloud cover, transmission and optical depth. These show relationships between ceilometer  backscatter and optical depth as well as cloud cover in the lower levels. The relationship between backscatter and atmospheric transmission is less obvious but this will be at least partly due to the differences in the optical path relevant to each. At higher levels (above \SI{5}{\kilo\meter}) the scatter plots look more randomly spread indicating mostly noise in the signal. The attenuation at this range is large and the signal to noise ratio lower as a result.
+
+\section{Further work}
+Due to the time constraints on this work there is much more which could be done. The impact of atmospheric conditions on $\Kdown$ needs more work. The relationships in the data are more complex than for $\Ldown$ which was almost entirely dependent on air temperature and the presence or absence of cloud. $\Kdown$ was seen to be related to air temperature and cloud cover but further complicated by sun earth geometry, optical tepth and transmission along the path of the direct solar beam, and the amount of aerosol present. The aerosols present would also merit further study as their optical properties and effect on $\Kdown$ depend on aerosol type and size, and aerosol size is dependent on RH for certain species.
+
+Seasonal effects on the data have not been investigated. Other possible things to investigate are whether diurnal patters exist such as morning and evening rush hour traffic increasing aerosol levels near the surface, or longer period patterns due to quiter roads at weekends.
+
+A more complete statistical analysis could be undertaken, and linear regressions applied to strata within the dataset, or possibly least angle regression techniques applied to find multi-variate relationships in the data. The empirical relationships found in this way could be used to improve the $\Kdown$ model.
+
 
 \chapter{Model}
-The radiation model was constructed around observation data collected from a Met mast from January 2010 to December 2012, and Vaisala CL31 cloud cover data from October to December 2010.  Both instruments were installed at KSS. TODO: footnote explaining where that is
+The radiation model was constructed around observation data collected from a Met mast from January 2010 to December 2012, and Vaisala CL31 cloud cover data from October to December 2010.  Both instruments were installed at KSS.
 
 \section{Design}
 The model diagnoses shortwave and longwave radiation from three easily observed meteorological variables: air temperature near the surface, cloud cover, and relative humidity.  The shortwave radiation model is driven by the diurnal and seasonal variation of insolation through an atmosphere with an amount of cloud cover.  In section~\ref{sec:longwave-model} a simple longwave model is presented that is based on air temperature alone, which is then refined based on longwave parameterisation from \cite{loridan}.
